@@ -7,6 +7,7 @@ public class StrengthEffect : Effect
     private EffectType _effectType = EffectType.Counter;
     public override void ApplyEffect(CombatUnit unit)
     {
-        unit.Attribute.Strengh = _effectValue;
+        unit.Attribute.Strength = _effectValue;
     }
 }
+    

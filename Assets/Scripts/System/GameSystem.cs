@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class GameSystem
+public class GameSystem : MonoBehaviour
 {
-    private static Dictionary<Type, SystemBase> systemDic = new Dictionary<Type, SystemBase>();
+    public static GameSystem Instance = null;
 
-    public static T GetSystem<T>() where T : SystemBase, new()
+    private Dictionary<Type, SystemBase> systemDic = new Dictionary<Type, SystemBase>();
+
+    public T GetSystem<T>() where T : SystemBase, new()
     {
         Type type = typeof(T);
         if (!systemDic.ContainsKey(type))
@@ -18,9 +20,21 @@ public static class GameSystem
         return systemDic[type] as T;
     }
 
-    public static void Initialize()
+    public void Initialize()
     {
         // Initialize all systems here if needed
         systemDic.Add(typeof(EffectSystem), new EffectSystem());
+        systemDic.Add(typeof(CombatSystem), new CombatSystem());
+    }
+    
+    private void Awake(){
+        if(Instance == null){
+            Instance = this;
+            Initialize();
+            DontDestroyOnLoad(this.gameObject);
+        }else{
+            Destroy(this.gameObject);
+            return;
+        }
     }
 }

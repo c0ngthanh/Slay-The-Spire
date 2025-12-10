@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class CombatUnit : BaseUnit
 {
-    public UnitAttribute Attribute { get; private set; }
+    public CombatAttribute Attribute { get; private set; }
 
     List<Effect> effects = new List<Effect>();
 
