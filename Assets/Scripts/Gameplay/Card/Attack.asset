@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db09c374f09153041bdd93e9b22a5b8c, type: 3}
-  m_Name: BaseAttackCard
+  m_Name: Attack
   m_EditorClassIdentifier: 
   CardName: BaseAttack
   CardDescription: Deal 5 dame to target
@@ -18,5 +18,12 @@ MonoBehaviour:
   CardType: 0
   CardTarget: 3
   CardBehavior:
-  - {fileID: 0}
-  - {fileID: 0}
+  - rid: 8543011045153701954
+  references:
+    version: 2
+    RefIds:
+    - rid: 8543011045153701954
+      type: {class: AttackBehavior, ns: , asm: Assembly-CSharp}
+      data:
+        attackType: 0
+        value: 5

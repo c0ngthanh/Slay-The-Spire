@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BaseUnit : MonoBehaviour
+public class BaseUnit: MonoBehaviour
 {
     
 }

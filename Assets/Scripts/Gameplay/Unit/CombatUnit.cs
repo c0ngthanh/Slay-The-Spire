@@ -3,11 +3,24 @@ using UnityEngine;
 
 public class CombatUnit : BaseUnit
 {
-    public CombatAttribute Attribute { get; private set; }
+    public CombatAttribute Attribute {get; private set;}
 
-    List<Effect> effects = new List<Effect>();
-
-    private void ApplyEffects(BaseUnit unit)
+    private List<Effect> effects;
+    public CombatUnit(CombatAttribute attribute)
+    {
+        Attribute = attribute.MakeCopy();
+        effects = new List<Effect>();
+    }
+    // private void Awake()
+    // {
+    //     Initalize();
+    // }   
+    // public void Initalize()
+    // {
+    //     Attribute = Attribute.CopyAttribute(BaseAttribute);
+    //     effects = new List<Effect>();
+    // }
+    private void ApplyEffects()
     {
         foreach (var effect in effects)
         {
