@@ -3,6 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Combat/CombatAttribute")]
 public class CombatAttribute : ScriptableObject
 {
+    public GameObject tempCharacterModel;
     public int MaxHPBase = 0;
     [HideInInspector] public int MaxHP =0;
     [HideInInspector] public int HP =0;

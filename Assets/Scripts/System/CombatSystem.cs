@@ -18,14 +18,12 @@ public class CombatSystem : SystemBase
     public CombatUnit currentUnit;
 
     public Dictionary<CombatEvent, Action> CombatEventDic = new ();
-
     public override void Initialize(){
         CombatEventDic[CombatEvent.StartCombat] = () => {};
         CombatEventDic[CombatEvent.StartTurn] = () => {};
         CombatEventDic[CombatEvent.EndTurn] = () => {};
         CombatEventDic[CombatEvent.EndCombat] = () => {};
     }
-
     public override void Dispose()
     {
         //;
@@ -47,6 +45,19 @@ public class CombatSystem : SystemBase
         CombatEventDic[CombatEvent.StartCombat]?.Invoke();
         CurrentTurn = 0;
         StartPlayerTurn();
+        SetTeamPosition();
+    }
+
+    private void SetTeamPosition()
+    {
+        for(int i = 0; i < firstTeam.Length; i++)
+        {
+            firstTeam[i].SetPosition(new Vector3(-(3*i+4), 0, 0));
+        }
+        for(int i = 0; i < secondTeam.Length; i++)
+        {
+            secondTeam[i].SetPosition(new Vector3(3*i+2, 0, 0));
+        }
     }
 
     private void StartPlayerTurn(){

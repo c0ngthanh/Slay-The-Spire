@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b830ff4814791a4fa1fa064793b697f, type: 3}
   m_Name: Slime
   m_EditorClassIdentifier: 
+  tempCharacterModel: {fileID: 3646122493330492493, guid: db04af26b83383b49ae4410d332d0bc5, type: 3}
   MaxHPBase: 65
   MaxHP: 0
   HP: 0
