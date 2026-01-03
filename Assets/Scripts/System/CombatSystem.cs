@@ -3,19 +3,23 @@ using System;
 using System.Collections.Generic;
 
 public enum CombatEvent{
-    StartCombat,
+    StartCombat, 
     StartTurn,
     EndTurn,
     EndCombat
 }
 
+public enum CombatPhase{
+    PlayerTurn,
+    EnemyTurn
+}
 public class CombatSystem : SystemBase
 {
     // This information will be used to manage the combat state
-    public CombatUnit[] firstTeam;
-    public CombatUnit[] secondTeam;
+    public Dictionary<CombatPhase, List<CombatUnit>> PhaseUnits = new ();
     public int CurrentTurn;
     public CombatUnit currentUnit;
+    private CombatPhase currentPhase = CombatPhase.PlayerTurn;
 
     public Dictionary<CombatEvent, Action> CombatEventDic = new ();
     public override void Initialize(){
@@ -23,6 +27,8 @@ public class CombatSystem : SystemBase
         CombatEventDic[CombatEvent.StartTurn] = () => {};
         CombatEventDic[CombatEvent.EndTurn] = () => {};
         CombatEventDic[CombatEvent.EndCombat] = () => {};
+
+        EventBusSystem.Subscribe<EndTurnEvent>(EndTurn);
     }
     public override void Dispose()
     {
@@ -38,61 +44,66 @@ public class CombatSystem : SystemBase
         }
     }
 
-    public void StartCombat(CombatUnit[] firstTeam, CombatUnit[] secondTeam){
-        Debug.Log("CombatSystem: Starting Combat");
-        this.firstTeam = firstTeam;
-        this.secondTeam = secondTeam;
+    public void StartCombat(List<CombatUnit> firstTeam, List<CombatUnit> secondTeam){
+        PhaseUnits[CombatPhase.PlayerTurn] = firstTeam;
+        PhaseUnits[CombatPhase.EnemyTurn] = secondTeam;
         CombatEventDic[CombatEvent.StartCombat]?.Invoke();
         CurrentTurn = 0;
-        StartPlayerTurn();
+        StartTurn();
         SetTeamPosition();
     }
 
     private void SetTeamPosition()
     {
-        for(int i = 0; i < firstTeam.Length; i++)
+        for(int i = 0; i < PhaseUnits[CombatPhase.PlayerTurn].Count; i++)
         {
-            firstTeam[i].SetPosition(new Vector3(-(3*i+4), 0, 0));
+            PhaseUnits[CombatPhase.PlayerTurn][i].SetPosition(new Vector3(-(3*i+4), 0, 0));
         }
-        for(int i = 0; i < secondTeam.Length; i++)
+        for(int i = 0; i < PhaseUnits[CombatPhase.EnemyTurn].Count; i++)
         {
-            secondTeam[i].SetPosition(new Vector3(3*i+2, 0, 0));
+            PhaseUnits[CombatPhase.EnemyTurn][i].SetPosition(new Vector3(3*i+2, 0, 0));
         }
     }
 
-    private void StartPlayerTurn(){
+    private void StartTurn(){
         CombatEventDic[CombatEvent.StartTurn]?.Invoke();
         // wait for player input or AI decision
-
-    }
-
-    private void EndPlayerTurn(){
-        CombatEventDic[CombatEvent.EndTurn]?.Invoke();
         CurrentTurn += 1;
+        if(currentPhase == CombatPhase.PlayerTurn){
+            // Player Turn Logic
+            Debug.Log("Player Turn Logic");
+        }
+        else
+        {
+            Debug.Log("Enemy Turn Logic");
+            EndTurn(new EndTurnEvent());
+        }
+        EventBusSystem.Publish(new CombatInfoEvent(currentPhase.ToString(), PhaseUnits[CombatPhase.PlayerTurn], PhaseUnits[CombatPhase.EnemyTurn]));
     }
 
-    private void StartEnemyTurn(){
-        CombatEventDic[CombatEvent.StartTurn]?.Invoke();
-        // wait for AI decision
-
-    }
-
-    private void EndEnemyTurn(){
+    private void EndTurn(EndTurnEvent endTurnEvent){
         CombatEventDic[CombatEvent.EndTurn]?.Invoke();
-        CurrentTurn += 1;
+        if(currentPhase == CombatPhase.PlayerTurn){
+            currentPhase = CombatPhase.EnemyTurn;
+        }
+        else
+        {
+            currentPhase = CombatPhase.PlayerTurn;
+        }
+        StartTurn();
     }
 
     private void CheckForEndCombat()
     {
         bool firstTeamAlive = false;
-        foreach(var unit in firstTeam){
+        foreach(var unit in PhaseUnits[CombatPhase.PlayerTurn]){
             if(unit.Attribute.HP > 0){
                 firstTeamAlive = true;
                 break;
             }
         }
         bool secondTeamAlive = false;
-        foreach(var unit in secondTeam){
+        foreach(var unit in PhaseUnits[CombatPhase.EnemyTurn]){
             if(unit.Attribute.HP > 0){
                 secondTeamAlive = true;
                 break;

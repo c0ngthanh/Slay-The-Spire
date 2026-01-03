@@ -30,6 +30,7 @@ public class CombatAttribute : ScriptableObject
         characterAttribute.Dexterity = this.Dexterity;
         characterAttribute.DamagePercent = this.DamagePercent;
         characterAttribute.BlockPercent = this.BlockPercent;
+        characterAttribute.tempCharacterModel = this.tempCharacterModel;
         return characterAttribute;
     }
 }

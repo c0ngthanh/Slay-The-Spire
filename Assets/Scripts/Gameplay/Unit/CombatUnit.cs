@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CombatUnit : BaseUnit
+public class CombatUnit
 {
     public CombatAttribute Attribute {get; private set;}
     private GameObject model;
@@ -10,7 +10,7 @@ public class CombatUnit : BaseUnit
     {
         Attribute = attribute.MakeCopy();
         effects = new List<Effect>();
-        model = Instantiate(attribute.tempCharacterModel);
+        model = GameObject.Instantiate(attribute.tempCharacterModel);
     }
 
     public void SetPosition(Vector3 position)
