@@ -2,115 +2,127 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-public enum CombatEvent{
-    StartCombat, 
+public enum CombatEvent
+{
+    StartCombat,
     StartTurn,
     EndTurn,
     EndCombat
 }
 
-public enum CombatPhase{
-    PlayerTurn,
-    EnemyTurn
-}
 public class CombatSystem : SystemBase
 {
     // This information will be used to manage the combat state
-    public Dictionary<CombatPhase, List<CombatUnit>> PhaseUnits = new ();
+    public CombatUnit[] firstTeam;
+    public CombatUnit[] secondTeam;
     public int CurrentTurn;
     public CombatUnit currentUnit;
-    private CombatPhase currentPhase = CombatPhase.PlayerTurn;
 
-    public Dictionary<CombatEvent, Action> CombatEventDic = new ();
-    public override void Initialize(){
-        CombatEventDic[CombatEvent.StartCombat] = () => {};
-        CombatEventDic[CombatEvent.StartTurn] = () => {};
-        CombatEventDic[CombatEvent.EndTurn] = () => {};
-        CombatEventDic[CombatEvent.EndCombat] = () => {};
+    public Dictionary<CombatEvent, Action> CombatEventDic = new();
 
-        EventBusSystem.Subscribe<EndTurnEvent>(EndTurn);
+    public override void Initialize()
+    {
+        CombatEventDic[CombatEvent.StartCombat] = () => { };
+        CombatEventDic[CombatEvent.StartTurn] = () => { };
+        CombatEventDic[CombatEvent.EndTurn] = () => { };
+        CombatEventDic[CombatEvent.EndCombat] = () => { };
     }
+
     public override void Dispose()
     {
         //;
     }
 
-    public Action GetActionByType(CombatEvent eventType){
-        if(CombatEventDic.ContainsKey(eventType)){
+    public Action GetActionByType(CombatEvent eventType)
+    {
+        if (CombatEventDic.ContainsKey(eventType))
+        {
             return CombatEventDic[eventType];
-        }else{
+        }
+        else
+        {
             Debug.LogError("CombatSystem: No Action found for event type " + eventType.ToString());
             return null;
         }
     }
 
-    public void StartCombat(List<CombatUnit> firstTeam, List<CombatUnit> secondTeam){
-        PhaseUnits[CombatPhase.PlayerTurn] = firstTeam;
-        PhaseUnits[CombatPhase.EnemyTurn] = secondTeam;
-        CombatEventDic[CombatEvent.StartCombat]?.Invoke();
-        CurrentTurn = 0;
-        StartTurn();
-        SetTeamPosition();
-    }
-
-    private void SetTeamPosition()
+    public void StartCombat(CombatUnit[] firstTeam, CombatUnit[] secondTeam)
     {
-        for(int i = 0; i < PhaseUnits[CombatPhase.PlayerTurn].Count; i++)
-        {
-            PhaseUnits[CombatPhase.PlayerTurn][i].SetPosition(new Vector3(-(3*i+4), 0, 0));
-        }
-        for(int i = 0; i < PhaseUnits[CombatPhase.EnemyTurn].Count; i++)
-        {
-            PhaseUnits[CombatPhase.EnemyTurn][i].SetPosition(new Vector3(3*i+2, 0, 0));
-        }
+        Debug.Log("CombatSystem: Starting Combat");
+        this.firstTeam = firstTeam;
+        this.secondTeam = secondTeam;
+        CombatEventDic[CombatEvent.StartCombat]?.Invoke();
+
+        // Fire Global Event
+        GlobalEventManager.Instance?.Invoke(new CombatStartEvent());
+
+        CurrentTurn = 0;
+        StartPlayerTurn();
     }
 
-    private void StartTurn(){
+    private void StartPlayerTurn()
+    {
         CombatEventDic[CombatEvent.StartTurn]?.Invoke();
+
+        // Fire Global Event
+        GlobalEventManager.Instance?.Invoke(new TurnStartEvent { TurnNumber = CurrentTurn + 1 });
+
         // wait for player input or AI decision
-        CurrentTurn += 1;
-        if(currentPhase == CombatPhase.PlayerTurn){
-            // Player Turn Logic
-            Debug.Log("Player Turn Logic");
-        }
-        else
-        {
-            Debug.Log("Enemy Turn Logic");
-            EndTurn(new EndTurnEvent());
-        }
-        EventBusSystem.Publish(new CombatInfoEvent(currentPhase.ToString(), PhaseUnits[CombatPhase.PlayerTurn], PhaseUnits[CombatPhase.EnemyTurn]));
+
     }
 
-    private void EndTurn(EndTurnEvent endTurnEvent){
+    private void EndPlayerTurn()
+    {
         CombatEventDic[CombatEvent.EndTurn]?.Invoke();
-        if(currentPhase == CombatPhase.PlayerTurn){
-            currentPhase = CombatPhase.EnemyTurn;
-        }
-        else
-        {
-            currentPhase = CombatPhase.PlayerTurn;
-        }
-        StartTurn();
+
+        // Fire Global Event
+        GlobalEventManager.Instance?.Invoke(new TurnEndEvent());
+
+        CurrentTurn += 1;
+    }
+
+    private void StartEnemyTurn()
+    {
+        CombatEventDic[CombatEvent.StartTurn]?.Invoke();
+        // wait for AI decision
+
+    }
+
+    private void EndEnemyTurn()
+    {
+        CombatEventDic[CombatEvent.EndTurn]?.Invoke();
+        CurrentTurn += 1;
     }
 
     private void CheckForEndCombat()
     {
         bool firstTeamAlive = false;
-        foreach(var unit in PhaseUnits[CombatPhase.PlayerTurn]){
-            if(unit.Attribute.HP > 0){
+        foreach (var unit in firstTeam)
+        {
+            if (unit.Attribute.HP > 0)
+            {
                 firstTeamAlive = true;
                 break;
             }
         }
         bool secondTeamAlive = false;
-        foreach(var unit in PhaseUnits[CombatPhase.EnemyTurn]){
-            if(unit.Attribute.HP > 0){
+        foreach (var unit in secondTeam)
+        {
+            if (unit.Attribute.HP > 0)
+            {
                 secondTeamAlive = true;
                 break;
             }
         }
-        if(!firstTeamAlive || !secondTeamAlive){
+        if (!firstTeamAlive || !secondTeamAlive)
+        {
             CombatEventDic[CombatEvent.EndCombat]?.Invoke();
+
+            // Fire Global Event
+            GlobalEventManager.Instance.Invoke(new CombatEndEvent
+            {
+                PlayerWon = firstTeamAlive // Assuming firstTeam is Player
+            });
         }
     }
 }

@@ -49,26 +49,18 @@ public class GameSystem : MonoBehaviour
             return;
         }
     }
-
-    private void Update()
-    {
-        foreach (var system in systemDic.Values)
-        {
-            system.Tick();
-        }
-    }
-
+    
     private void Start(){
         // Temp code to start combat for testing
-        List<CombatUnit> firstTeamUnits = new List<CombatUnit>();
+        CombatUnit[] firstTeamUnits = new CombatUnit[firstTeam.Length];
         for(int i = 0; i < firstTeam.Length; i++){
             Debug.Log("First Team Unit " + i + " Attribute HP: " + firstTeam[i].MaxHPBase);
-            firstTeamUnits.Add(new CombatUnit(firstTeam[i]));
+            firstTeamUnits[i] = new CombatUnit(firstTeam[i]);
         }
-        List<CombatUnit> secondTeamUnits = new List<CombatUnit>();
+        CombatUnit[] secondTeamUnits = new CombatUnit[secondTeam.Length];
         for(int i = 0; i < secondTeam.Length; i++){
             Debug.Log("Second Team Unit " + i + " Attribute HP: " + secondTeam[i].MaxHPBase);
-            secondTeamUnits.Add(new CombatUnit(secondTeam[i]));
+            secondTeamUnits[i] = new CombatUnit(secondTeam[i]);
         }
         GetSystem<CombatSystem>().StartCombat(firstTeamUnits, secondTeamUnits);
     }

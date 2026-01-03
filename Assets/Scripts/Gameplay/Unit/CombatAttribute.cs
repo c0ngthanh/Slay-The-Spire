@@ -3,7 +3,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Combat/CombatAttribute")]
 public class CombatAttribute : ScriptableObject
 {
-    public GameObject tempCharacterModel;
     public int MaxHPBase = 0;
     [HideInInspector] public int MaxHP =0;
     [HideInInspector] public int HP =0;
@@ -30,7 +29,6 @@ public class CombatAttribute : ScriptableObject
         characterAttribute.Dexterity = this.Dexterity;
         characterAttribute.DamagePercent = this.DamagePercent;
         characterAttribute.BlockPercent = this.BlockPercent;
-        characterAttribute.tempCharacterModel = this.tempCharacterModel;
         return characterAttribute;
     }
 }
