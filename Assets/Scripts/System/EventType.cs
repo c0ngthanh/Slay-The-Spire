@@ -21,3 +21,12 @@ public struct CombatInfoEvent
         this.enemyTeam = enemyTeam;
     }
 }
+
+public struct AddCardToHandEvent
+{
+    public CardSO cardSO;
+    public AddCardToHandEvent(CardSO cardSO)
+    {
+        this.cardSO = cardSO;
+    }
+}

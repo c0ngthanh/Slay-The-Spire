@@ -81,7 +81,7 @@ public class CombatSystem : SystemBase
         EventBusSystem.Publish(new CombatInfoEvent(currentPhase.ToString(), PhaseUnits[CombatPhase.PlayerTurn], PhaseUnits[CombatPhase.EnemyTurn]));
     }
 
-    private void EndTurn(EndTurnEvent endTurnEvent){
+    private void EndTurn(EndTurnEvent @event){
         CombatEventDic[CombatEvent.EndTurn]?.Invoke();
         if(currentPhase == CombatPhase.PlayerTurn){
             currentPhase = CombatPhase.EnemyTurn;

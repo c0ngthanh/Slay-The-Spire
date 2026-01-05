@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db09c374f09153041bdd93e9b22a5b8c, type: 3}
-  m_Name: Attack
+  m_Name: AttackButNeedToTarget
   m_EditorClassIdentifier: 
   CardName: BaseAttack
-  CardDescription: Deal 5 dame all target
+  CardDescription: Deal 5 dame to target (Need to target)
   EnergyCost: 1
-  NeedToTarget: 0
+  NeedToTarget: 1
   CardType: 0
   CardTarget: 3
   CardBehavior:
