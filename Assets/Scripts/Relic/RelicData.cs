@@ -20,6 +20,7 @@ public class RelicSO : ScriptableObject
 public class RelicAbilityData
 {
     public GameTriggerType Trigger;
+    public int Priority; // Lower runs first
     public List<RelicConditionData> Conditions;
     public List<RelicEffectData> Effects;
 }

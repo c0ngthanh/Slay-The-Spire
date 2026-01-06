@@ -8,5 +8,6 @@ public abstract class RelicEffectSO : ScriptableObject
     /// <param name="gameEvent">The event that triggered this effect.</param>
     /// <param name="relicInstance">The runtime instance of the relic.</param>
     /// <param name="data">The data associated with this effect (parameters).</param>
-    public abstract void Execute(GameEvent gameEvent, RelicInstance relicInstance, RelicEffectData data);
+    /// <param name="ctx">The game context provider.</param>
+    public abstract void Execute(GameEvent gameEvent, RelicInstance relicInstance, RelicEffectData data, IGameContext ctx);
 }
