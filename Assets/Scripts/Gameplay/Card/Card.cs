@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,54 +9,36 @@ public class Card : MonoBehaviour
     [SerializeField] private Text descriptionText;
 
     private Toggle toggle;
-    private bool isTargeting;
     public void Init(CardSO cardData)
     {
         this.cardData = cardData;
         descriptionText.text = cardData.CardDescription;
         toggle = GetComponent<Toggle>();
-        toggle.onValueChanged.AddListener(OnCardSelected);
+        toggle.onValueChanged.AddListener(OnToggleCard);
+        toggle.group = GetComponentInParent<ToggleGroup>();
     }
 
-    private void OnCardSelected(bool isOn)
+    private void OnToggleCard(bool value)
     {
-        if (isOn)
+        if(value)
         {
-            GetComponent<Image>().color = new Color(154/255f, 154/255f, 154/255f);
-            // Implement target selection logic here
-            if(cardData.NeedToTarget)
-            {
-                
-            }
-            else
-            {
-                PlayCard();
-            }
+            EventBusSystem.Publish(new CardSelectedEvent(cardData, this));
+            GetComponent<Image>().color = Color.gray;
         }
         else
         {
-            // Deselect targets logic here
             GetComponent<Image>().color = Color.white;
-            if(cardData.NeedToTarget)
-            {
-                
-            }
-        }
-    }
-    void Update()
-    {
-        if(isTargeting)
-        {
-            // Handle target selection input here
         }
     }
 
-    public void PlayCard()
+    public bool IsNeedToTarget()
     {
-        foreach (var behavior in cardData.CardBehavior)
-        {
-            behavior.Execute(new CardExecutionContext());
-        }
+        return cardData.NeedToTarget;
+    }
+
+    public void MoveToGraveyard()
+    {
         toggle.isOn = false;
+        toggle.interactable = false;
     }
 }

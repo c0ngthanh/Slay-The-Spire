@@ -30,3 +30,14 @@ public struct AddCardToHandEvent
         this.cardSO = cardSO;
     }
 }
+
+public struct CardSelectedEvent
+{
+    public CardSO cardSO;
+    public Card currentCard;
+    public CardSelectedEvent(CardSO cardSO, Card currentCard)
+    {
+        this.cardSO = cardSO;
+        this.currentCard = currentCard;
+    }
+}
