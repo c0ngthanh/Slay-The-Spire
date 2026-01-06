@@ -11,6 +11,7 @@ public class GameSystem : MonoBehaviour
     //Temp config for combat
     [SerializeField] private CombatAttribute[] firstTeam;
     [SerializeField] private CombatAttribute[] secondTeam;
+    [SerializeField] private List<CardSO> cardSOList;
     public T GetSystem<T>() where T : SystemBase, new()
     {
         Type type = typeof(T);
@@ -28,6 +29,7 @@ public class GameSystem : MonoBehaviour
         // Initialize all systems here if needed
         systemDic.Add(typeof(EffectSystem), new EffectSystem());
         systemDic.Add(typeof(CombatSystem), new CombatSystem());
+        systemDic.Add(typeof(CardSystem), new CardSystem());
         InitalizeAllSystems();
     }
 
@@ -63,5 +65,9 @@ public class GameSystem : MonoBehaviour
             secondTeamUnits[i] = new CombatUnit(secondTeam[i]);
         }
         GetSystem<CombatSystem>().StartCombat(firstTeamUnits, secondTeamUnits);
+
+        foreach(var cardSO in cardSOList){
+            GetSystem<CardSystem>().AddCardToHand(cardSO, 1);
+        }
     }
 }

@@ -1,0 +1,429 @@
+fileFormatVersion: 2
+guid: e976aab579b26c1429c5c3947827b26b
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7374862180073116360
+    second: icon map hanh tinh chet_0
+  - first:
+      213: -8934534996329495636
+    second: icon map hanh tinh chet_1
+  - first:
+      213: 3279253315502510013
+    second: icon map hanh tinh chet_2
+  - first:
+      213: -6932133536414600629
+    second: icon map hanh tinh chet_3
+  - first:
+      213: -7736222674607495032
+    second: icon map hanh tinh chet_4
+  - first:
+      213: 994754475878845242
+    second: icon map hanh tinh chet_5
+  - first:
+      213: -678377038889992902
+    second: icon map hanh tinh chet_6
+  - first:
+      213: -678036580364513734
+    second: icon map hanh tinh chet_7
+  - first:
+      213: 9070059072657108552
+    second: icon map hanh tinh chet_8
+  - first:
+      213: -7669643243099034657
+    second: icon map hanh tinh chet_9
+  - first:
+      213: 3361613408378304391
+    second: icon map hanh tinh chet_10
+  - first:
+      213: 8044016839589711615
+    second: icon map hanh tinh chet_11
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: icon map hanh tinh chet_0
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 53
+        width: 477
+        height: 406
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 83d6741cbe937a990800000000000000
+      internalID: -7374862180073116360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: icon map hanh tinh chet_1
+      rect:
+        serializedVersion: 2
+        x: 245
+        y: 413
+        width: 86
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca30c7e02c7220480800000000000000
+      internalID: -8934534996329495636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: icon map hanh tinh chet_2
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 406
+        width: 131
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dbf8c07248f328d20800000000000000
+      internalID: 3279253315502510013
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: icon map hanh tinh chet_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 101
+        width: 13
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b427f62d64d1ccf90800000000000000
+      internalID: -6932133536414600629
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: icon map hanh tinh chet_4
+      rect:
+        serializedVersion: 2
+        x: 491
+        y: 90
+        width: 8
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 888a2b8377a63a490800000000000000
+      internalID: -7736222674607495032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: icon map hanh tinh chet_5
+      rect:
+        serializedVersion: 2
+        x: 497
+        y: 109
+        width: 15
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3b0d75ece31ecd00800000000000000
+      internalID: 994754475878845242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: icon map hanh tinh chet_6
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 53
+        width: 44
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3d3e256dabe596f0800000000000000
+      internalID: -678377038889992902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: icon map hanh tinh chet_7
+      rect:
+        serializedVersion: 2
+        x: 55
+        y: 47
+        width: 42
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3e07a292512796f0800000000000000
+      internalID: -678036580364513734
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: icon map hanh tinh chet_8
+      rect:
+        serializedVersion: 2
+        x: 323
+        y: 41
+        width: 170
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84e298ddba25fdd70800000000000000
+      internalID: 9070059072657108552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: icon map hanh tinh chet_9
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 36
+        width: 32
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fdb6b1d1b14ff8590800000000000000
+      internalID: -7669643243099034657
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: icon map hanh tinh chet_10
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 24
+        width: 103
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 78734969599d6ae20800000000000000
+      internalID: 3361613408378304391
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: icon map hanh tinh chet_11
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 22
+        width: 63
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ffe410352b612af60800000000000000
+      internalID: 8044016839589711615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      icon map hanh tinh chet_0: -7374862180073116360
+      icon map hanh tinh chet_1: -8934534996329495636
+      icon map hanh tinh chet_10: 3361613408378304391
+      icon map hanh tinh chet_11: 8044016839589711615
+      icon map hanh tinh chet_2: 3279253315502510013
+      icon map hanh tinh chet_3: -6932133536414600629
+      icon map hanh tinh chet_4: -7736222674607495032
+      icon map hanh tinh chet_5: 994754475878845242
+      icon map hanh tinh chet_6: -678377038889992902
+      icon map hanh tinh chet_7: -678036580364513734
+      icon map hanh tinh chet_8: 9070059072657108552
+      icon map hanh tinh chet_9: -7669643243099034657
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
