@@ -5,6 +5,8 @@ public class CardHolder : MonoBehaviour
 {
     [SerializeField] private Card cardPrefab;
 
+    private Card currentSelectedCard = null;
+
     void Awake()
     {
         EventBusSystem.Subscribe<AddCardToHandEvent>(OnAddCardToHand);
