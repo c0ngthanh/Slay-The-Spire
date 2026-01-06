@@ -3,11 +3,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Relic/Effects/DrawCards")]
 public class DrawCardsEffectSO : RelicEffectSO
 {
-    public int Amount;
-
-    public override void Execute(GameEvent gameEvent, RelicInstance relicInstance)
+    public override void Execute(GameEvent gameEvent, RelicInstance relicInstance, RelicEffectData data)
     {
-        Debug.Log($"[Relic Effect] {relicInstance.Data.relicName} drew {Amount} cards.");
-        // CombatSystem.Instance.DrawCards(Amount);
+        Debug.Log($"[Relic Effect] {relicInstance.Data.relicName} drew {data.IntValue} cards.");
+        // CombatSystem.Instance.DrawCards(data.IntValue);
     }
 }

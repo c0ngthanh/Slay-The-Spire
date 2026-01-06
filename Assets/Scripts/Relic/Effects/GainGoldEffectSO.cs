@@ -3,11 +3,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Relic/Effects/GainGold")]
 public class GainGoldEffectSO : RelicEffectSO
 {
-    public int Amount;
-
-    public override void Execute(GameEvent gameEvent, RelicInstance relicInstance)
+    public override void Execute(GameEvent gameEvent, RelicInstance relicInstance, RelicEffectData data)
     {
-        Debug.Log($"[Relic Effect] {relicInstance.Data.relicName} gave player {Amount} Gold.");
-        // PlayerStats.Instance.Gold += Amount;
+        Debug.Log($"[Relic Effect] {relicInstance.Data.relicName} gave player {data.IntValue} Gold.");
+        // PlayerStats.Instance.Gold += data.IntValue;
     }
 }
