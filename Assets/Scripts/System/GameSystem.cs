@@ -30,6 +30,7 @@ public class GameSystem : MonoBehaviour
         systemDic.Add(typeof(EffectSystem), new EffectSystem());
         systemDic.Add(typeof(CombatSystem), new CombatSystem());
         systemDic.Add(typeof(CardSystem), new CardSystem());
+        systemDic.Add(typeof(TargetingSystem), new TargetingSystem());
         InitalizeAllSystems();
     }
 
@@ -65,12 +66,12 @@ public class GameSystem : MonoBehaviour
         List<CombatUnit> firstTeamUnits = new List<CombatUnit>();
         for(int i = 0; i < firstTeam.Length; i++){
             Debug.Log("First Team Unit " + i + " Attribute HP: " + firstTeam[i].MaxHPBase);
-            firstTeamUnits.Add(new CombatUnit(firstTeam[i]));
+            firstTeamUnits.Add(CombatUnit.Create(firstTeam[i]));
         }
         List<CombatUnit> secondTeamUnits = new List<CombatUnit>();
         for(int i = 0; i < secondTeam.Length; i++){
             Debug.Log("Second Team Unit " + i + " Attribute HP: " + secondTeam[i].MaxHPBase);
-            secondTeamUnits.Add(new CombatUnit(secondTeam[i]));
+            secondTeamUnits.Add(CombatUnit.Create(secondTeam[i]));
         }
         GetSystem<CombatSystem>().StartCombat(firstTeamUnits, secondTeamUnits);
 

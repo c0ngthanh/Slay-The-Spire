@@ -16,14 +16,14 @@ public class TempUI : MonoBehaviour
     private void OnCombatInfo(CombatInfoEvent evt)
     {
         
-        infoText.text = $"Phase: {evt.currentPhase}\n";
-        foreach (var item in evt.playerTeam)
+        infoText.text = $"Phase: {evt.CurrentPhase}\n";
+        foreach (var item in evt.PlayerTeam)
         {
-            infoText.text += $"Player: {item.Attribute.tempCharacterModel.name} HP: {item.Attribute.HP}/{item.Attribute.MaxHP}\n";
+            infoText.text += $"Player: {item.Attribute.CombatUnitObject.name} HP: {item.Attribute.HP}/{item.Attribute.MaxHP}\n";
         }
-        foreach (var item in evt.enemyTeam)
+        foreach (var item in evt.EnemyTeam)
         {
-            infoText.text += $"Enemy: {item.Attribute.tempCharacterModel.name} HP: {item.Attribute.HP}/{item.Attribute.MaxHP}\n";
+            infoText.text += $"Enemy: {item.Attribute.CombatUnitObject.name} HP: {item.Attribute.HP}/{item.Attribute.MaxHP}\n";
         }
     }
 

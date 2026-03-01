@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Combat/CombatAttribute")]
 public class CombatAttribute : ScriptableObject
 {
-    public GameObject tempCharacterModel;
+    public CombatUnit CombatUnitObject;
     public int MaxHPBase = 0;
     [HideInInspector] public int MaxHP =0;
     [HideInInspector] public int HP =0;
@@ -19,7 +19,7 @@ public class CombatAttribute : ScriptableObject
     public CombatAttribute MakeCopy()
     {
         Debug.Log("Copying CombatAttribute");
-        CombatAttribute characterAttribute = ScriptableObject.CreateInstance<CombatAttribute>();
+        CombatAttribute characterAttribute = CreateInstance<CombatAttribute>();
         characterAttribute.MaxHPBase = this.MaxHPBase;
         characterAttribute.MaxHP = this.MaxHPBase;
         characterAttribute.HP = this.HP;
@@ -30,7 +30,7 @@ public class CombatAttribute : ScriptableObject
         characterAttribute.Dexterity = this.Dexterity;
         characterAttribute.DamagePercent = this.DamagePercent;
         characterAttribute.BlockPercent = this.BlockPercent;
-        characterAttribute.tempCharacterModel = this.tempCharacterModel;
+        characterAttribute.CombatUnitObject = this.CombatUnitObject;
         return characterAttribute;
     }
 }

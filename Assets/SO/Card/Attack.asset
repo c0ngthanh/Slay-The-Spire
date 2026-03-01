@@ -16,6 +16,9 @@ MonoBehaviour:
   CardDescription: Deal 5 dame all target
   EnergyCost: 1
   NeedToTarget: 0
+  TargetLayerMask:
+    serializedVersion: 2
+    m_Bits: 64
   CardType: 0
   CardTarget: 3
   CardBehavior:

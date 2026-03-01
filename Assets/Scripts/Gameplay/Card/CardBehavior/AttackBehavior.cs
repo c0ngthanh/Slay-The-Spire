@@ -19,6 +19,7 @@ public class AttackBehavior : Behavior
             AttackType.CasterBlock => context.caster.Attribute.Block * value,
             _ => 0
         };
-        Debug.Log($"Deal {damage} to targets");
+        string targetNames = context.targets.Count == 0 ? "no target" : context.targets[0].name;
+        Debug.Log($"Deal {damage} to {targetNames}");
     }
 }

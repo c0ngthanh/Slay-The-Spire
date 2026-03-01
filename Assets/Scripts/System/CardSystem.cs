@@ -1,5 +1,5 @@
+using System;
 using System.Collections.Generic;
-using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
 public class CardSystem : SystemBase
@@ -9,7 +9,19 @@ public class CardSystem : SystemBase
     public override void Initialize()
     {
         EventBusSystem.Subscribe<CardSelectedEvent>(SelectCard);
+        EventBusSystem.Subscribe<TargetSelectedEvent>(OnTargetSelected);
     }
+
+    private void OnTargetSelected(TargetSelectedEvent @event)
+    {
+        if(currentCardSO != null && currentCardSO.NeedToTarget)
+        {
+            CardExecutionContext context = new CardExecutionContext();
+            context.AddTarget(@event.Unit);
+            PlayCard(context);
+        }
+    }
+
     List<CardSO> currentPlayerCard = new List<CardSO>();
     public void AddCardToHand(CardSO cardSO, int number = 1)
     {
@@ -22,8 +34,8 @@ public class CardSystem : SystemBase
 
     public void SelectCard(CardSelectedEvent @event)
     {
-        currentCardSO = @event.cardSO;
-        currentSelectedCard = @event.currentCard;
+        currentCardSO = @event.CardSO;
+        currentSelectedCard = @event.CurrentCard;
     }
 
     public override void Tick()
@@ -33,22 +45,28 @@ public class CardSystem : SystemBase
             if(currentCardSO.NeedToTarget)
             {
                 // Waiting for target selection
+                // Currently dont need targeting System -> maybe add for later
+                EventBusSystem.Publish(new StartTargetingEvent(currentCardSO.TargetLayerMask));
             }
             else
             {
                 PlayCard();
-                currentCardSO = null;
-                currentSelectedCard = null;
             }
         }
     }
 
-    public void PlayCard()
+    public void PlayCard(CardExecutionContext context = null)
     {
+        if(context == null)
+        {
+            context = new CardExecutionContext();
+        }
         foreach (var behavior in currentCardSO.CardBehavior)
         {
-            behavior.Execute(new CardExecutionContext());
+            behavior.Execute(context);
         }
         currentSelectedCard.MoveToGraveyard();
+        currentCardSO = null;
+        currentSelectedCard = null;
     }
 }

@@ -1,34 +1,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CombatUnit
+public class CombatUnit : BaseUnit
 {
     public CombatAttribute Attribute {get; private set;}
-    private GameObject model;
     private List<Effect> effects;
-    public CombatUnit(CombatAttribute attribute)
+    public static CombatUnit Create(CombatAttribute attribute)
     {
-        Attribute = attribute.MakeCopy();
-        effects = new List<Effect>();
-        model = GameObject.Instantiate(attribute.tempCharacterModel);
+        CombatUnit unit = Instantiate(attribute.CombatUnitObject);
+        unit.Attribute = attribute.MakeCopy();
+        unit.effects = new List<Effect>();
+        return unit;
     }
 
     public void SetPosition(Vector3 position)
     {
-        if(model != null)
-        {
-            model.transform.position = position;
-        }
+        transform.position = position;
     }
-    // private void Awake()
-    // {
-    //     Initalize();
-    // }   
-    // public void Initalize()
-    // {
-    //     Attribute = Attribute.CopyAttribute(BaseAttribute);
-    //     effects = new List<Effect>();
-    // }
+    
     private void ApplyEffects()
     {
         foreach (var effect in effects)

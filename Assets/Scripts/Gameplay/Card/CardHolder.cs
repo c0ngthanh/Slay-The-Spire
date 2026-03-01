@@ -15,6 +15,6 @@ public class CardHolder : MonoBehaviour
     private void OnAddCardToHand(AddCardToHandEvent @event)
     {
         Card newCard = Instantiate(cardPrefab, transform);
-        newCard.Init(@event.cardSO);
+        newCard.Init(@event.CardSO);
     }
 }
