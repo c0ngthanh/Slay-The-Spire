@@ -4,30 +4,30 @@ using UnityEngine;
 
 public class CardExecutionContext
 {
-    public CombatUnit caster;
-    public List<CombatUnit> targets;
+    public CombatUnit Caster;
+    public List<CombatUnit> Targets;
     public CardExecutionContext(CombatUnit caster)
     {
-        this.caster = caster;
-        this.targets = new List<CombatUnit>();
+        this.Caster = caster;
+        this.Targets = new List<CombatUnit>();
     }
     public CardExecutionContext(CombatUnit caster, List<CombatUnit> targets)
     {
-        this.caster = caster;
-        this.targets = targets;
+        this.Caster = caster;
+        this.Targets = targets;
     }
     public CardExecutionContext()
     {
-        this.caster = null;
-        this.targets = new List<CombatUnit>();
+        this.Caster = null;
+        this.Targets = new List<CombatUnit>();
     }
     public void AddTarget(CombatUnit target)
     {
-        if (targets == null)
+        if (Targets == null)
         {
-            targets = new List<CombatUnit>();
+            Targets = new List<CombatUnit>();
         }
-        targets.Add(target);
+        Targets.Add(target);
     }
 }
 [Serializable]

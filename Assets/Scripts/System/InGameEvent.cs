@@ -1,10 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EventType
-{
 
-}
 public struct EndTurnEvent
 {
 
@@ -57,5 +54,18 @@ public struct TargetSelectedEvent // Currently just need to choose CombatUnit as
     public TargetSelectedEvent(CombatUnit unit)
     {
         this.Unit = unit;
+    }
+}
+
+public struct HPChangedEvent // Currently just need to choose CombatUnit as target
+{
+    public int UnitID;
+    public int CurrentHP;
+    public int MaxHP;
+    public HPChangedEvent(int unitID, int currentHP, int maxHP)
+    {
+        this.UnitID = unitID;
+        this.CurrentHP = currentHP;
+        this.MaxHP = maxHP;
     }
 }

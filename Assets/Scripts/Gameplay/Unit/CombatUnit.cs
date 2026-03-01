@@ -9,6 +9,7 @@ public class CombatUnit : BaseUnit
     {
         CombatUnit unit = Instantiate(attribute.CombatUnitObject);
         unit.Attribute = attribute.MakeCopy();
+        unit.Attribute.HP = unit.Attribute.MaxHP;
         unit.effects = new List<Effect>();
         return unit;
     }
@@ -31,4 +32,18 @@ public class CombatUnit : BaseUnit
         effects.Add(effect);
     }
 
+    public void ModifyHP(int amount)
+    {
+        Attribute.HP += amount;
+        if (Attribute.HP > Attribute.MaxHP)
+        {
+            Attribute.HP = Attribute.MaxHP;
+        }
+        else if (Attribute.HP < 0)
+        {
+            Attribute.HP = 0;
+            // Handle unit death if needed
+        }
+        EventBusSystem.Publish(new HPChangedEvent(UID, Attribute.HP, Attribute.MaxHP));
+    }
 }
