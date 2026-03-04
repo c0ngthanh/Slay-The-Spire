@@ -20,7 +20,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   CardType: 0
-  CardTarget: 3
+  CardTarget: 0
   CardBehavior:
   - rid: 8543011045153701954
   references:

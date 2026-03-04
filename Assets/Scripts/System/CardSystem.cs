@@ -36,9 +36,10 @@ public class CardSystem : SystemBase
     {
         currentCardSO = @event.CardSO;
         currentSelectedCard = @event.CurrentCard;
+        ActiveCard();
     }
 
-    public override void Tick()
+    public void ActiveCard()
     {
         if(currentSelectedCard != null)
         {
@@ -50,7 +51,26 @@ public class CardSystem : SystemBase
             }
             else
             {
-                PlayCard();
+                var allUnits = GameSystem.Instance.GetSystem<CombatSystem>().GetAllUnits();
+                CardExecutionContext context = new CardExecutionContext();
+                switch(currentCardSO.CardTarget)
+                {
+                    case CardTarget.All:
+                        context.AddTarget(allUnits[CombatPhase.PlayerTurn]);
+                        context.AddTarget(allUnits[CombatPhase.EnemyTurn]);
+                        break;
+                    case CardTarget.AllEnemy:
+                        context.AddTarget(allUnits[CombatPhase.EnemyTurn]);
+                        break;
+                    case CardTarget.AllTeamMate:
+                        context.AddTarget(allUnits[CombatPhase.PlayerTurn]);
+                        break;
+                    default:
+                        Debug.LogError("CardSystem: Unsupported card target type " + currentCardSO.CardTarget.ToString());
+                        break;
+                }
+
+                PlayCard(context);
             }
         }
     }

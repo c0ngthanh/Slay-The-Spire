@@ -29,6 +29,15 @@ public class CardExecutionContext
         }
         Targets.Add(target);
     }
+
+    public void AddTarget(List<CombatUnit> targets)
+    {
+        if (Targets == null)
+        {
+            Targets = new List<CombatUnit>();
+        }
+        Targets.AddRange(targets);
+    }
 }
 [Serializable]
 public abstract class Behavior

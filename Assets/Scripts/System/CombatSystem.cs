@@ -113,4 +113,9 @@ public class CombatSystem : SystemBase
             CombatEventDic[CombatEvent.EndCombat]?.Invoke();
         }
     }
+
+    public Dictionary<CombatPhase, List<CombatUnit>> GetAllUnits()
+    {
+        return PhaseUnits;
+    }
 }
