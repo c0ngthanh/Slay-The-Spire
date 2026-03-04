@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HPBar : MonoBehaviour
+public class HPBar : MonoBehaviour, IPoolable
 {
     [SerializeField] private TMP_Text hpText;
     [SerializeField] private Slider hpSlider;
@@ -30,5 +30,19 @@ public class HPBar : MonoBehaviour
     public void SetUnitUID(int uid)
     {
         unitUID = uid;
+    }
+
+    public void OnSpawn()
+    {
+        // Reset HP bar fill to 100%
+        // Start fade-in animation
+        // gameObject.SetActive(true);
+    }
+
+    public void OnDespawn()
+    {
+        // Stop any running tweens/animations
+        // Clear references
+        // gameObject.SetActive(false);
     }
 }
