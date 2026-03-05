@@ -9,5 +9,10 @@ public abstract class RelicConditionSO : ScriptableObject
     /// <param name="relicInstance">The runtime instance of the relic (for accessing counters, etc.).</param>
     /// <param name="data">The data associated with this condition (parameters).</param>
     /// <returns>True if the condition is met.</returns>
-    public abstract bool Check(GameEvent gameEvent, RelicInstance relicInstance, RelicConditionData data);
+    /// /// 
+    /// /// WARNING:
+    /// Conditions MUST be pure checks.
+    /// DO NOT mutate relic state or context here.
+    /// </summary>
+    public abstract bool Check(GameEvent gameEvent, RelicRuntime relicInstance, RelicConditionData data);
 }

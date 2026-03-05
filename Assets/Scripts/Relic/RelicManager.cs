@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class RelicManager : MonoBehaviour
 {
-    public List<RelicInstance> ownedRelics = new();
+    public List<RelicRuntime> ownedRelics = new();
 
     // For testing/reference
     public List<RelicSO> startingRelics;
@@ -29,6 +29,11 @@ public class RelicManager : MonoBehaviour
 
     private void OnEnable()
     {
+        if (GlobalEventManager.Instance == null)
+        {
+            Debug.LogError("GlobalEventManager is not initialized!");
+            return;
+        }
         GlobalEventManager.Instance.AddListener<CombatStartEvent>(OnCombatStart);
         GlobalEventManager.Instance.AddListener<CombatEndEvent>(OnCombatEnd);
         GlobalEventManager.Instance.AddListener<TurnStartEvent>(OnTurnStart);
@@ -86,9 +91,9 @@ public class RelicManager : MonoBehaviour
         Dispatch(GameTriggerType.OnCardPlayed, e);
 
         // Dispatch specific card type triggers
-        if (e.Description == "Attack") Dispatch(GameTriggerType.OnAttackPlayed, e);
-        else if (e.Description == "Skill") Dispatch(GameTriggerType.OnSkillPlayed, e);
-        else if (e.Description == "Power") Dispatch(GameTriggerType.OnPowerPlayed, e);
+        if (e.Type == CardType.Attack) Dispatch(GameTriggerType.OnAttackPlayed, e);
+        else if (e.Type == CardType.Skill) Dispatch(GameTriggerType.OnSkillPlayed, e);
+        else if (e.Type == CardType.Power) Dispatch(GameTriggerType.OnPowerPlayed, e);
     }
 
     private void OnCardDraw(CardDrawEvent e) => Dispatch(GameTriggerType.OnCardDraw, e);
@@ -98,7 +103,7 @@ public class RelicManager : MonoBehaviour
     private void Dispatch(GameTriggerType trigger, GameEvent e)
     {
         // 1. Collect all valid (Relic, Ability) pairs
-        var queue = new List<(RelicInstance relic, RelicAbilityData ability)>();
+        var queue = new List<(RelicRuntime relic, RelicAbilityData ability)>();
 
         foreach (var relic in ownedRelics)
         {
@@ -157,7 +162,7 @@ public class RelicManager : MonoBehaviour
     {
         if (relicData == null) return;
 
-        RelicInstance newInstance = new(relicData);
+        RelicRuntime newInstance = new(relicData);
         ownedRelics.Add(newInstance);
 
         Debug.Log($"Relic Added: {relicData.relicName}");
@@ -166,11 +171,10 @@ public class RelicManager : MonoBehaviour
         // If we had an OnObtain relic trigger, we'd fire an event here.
     }
 
-    public void RemoveRelic(RelicInstance relic)
+    public void RemoveRelic(RelicRuntime relic)
     {
         if (ownedRelics.Contains(relic))
         {
-            // relic.OnRemove(); // No longer needed as RelicInstance is dumb
             ownedRelics.Remove(relic);
         }
     }

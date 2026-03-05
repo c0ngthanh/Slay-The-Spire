@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Relic/Conditions/TurnCount")]
 public class TurnCountConditionSO : RelicConditionSO
 {
-    public override bool Check(GameEvent gameEvent, RelicInstance relicInstance, RelicConditionData data)
+    public override bool Check(GameEvent gameEvent, RelicRuntime relicInstance, RelicConditionData data)
     {
         if (gameEvent is TurnStartEvent turnEvent)
         {

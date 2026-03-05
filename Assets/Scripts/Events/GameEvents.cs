@@ -49,7 +49,7 @@ public class CardPlayedEvent : GameEvent
 {
     // public CardData Card;
     public int EnergyCost;
-    public string Description; // e.g. "Attack", "Skill"
+    public CardType Type;
 }
 
 public class CardDrawEvent : GameEvent
