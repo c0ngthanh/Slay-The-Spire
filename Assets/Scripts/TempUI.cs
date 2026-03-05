@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TempUI : MonoBehaviour
+public class CombatUI : MonoBehaviour
 {
     [SerializeField] private Button endTurnBtn;
     [SerializeField] private Text infoText;

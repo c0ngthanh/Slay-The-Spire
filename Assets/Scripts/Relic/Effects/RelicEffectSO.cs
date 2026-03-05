@@ -1,0 +1,13 @@
+using UnityEngine;
+
+public abstract class RelicEffectSO : ScriptableObject
+{
+    /// <summary>
+    /// Executes the effect.
+    /// </summary>
+    /// <param name="gameEvent">The event that triggered this effect.</param>
+    /// <param name="relicInstance">The runtime instance of the relic.</param>
+    /// <param name="data">The data associated with this effect (parameters).</param>
+    /// <param name="ctx">The game context provider.</param>
+    public abstract void Execute(GameEvent gameEvent, RelicRuntime relicInstance, RelicEffectData data, IGameContext context);
+}
