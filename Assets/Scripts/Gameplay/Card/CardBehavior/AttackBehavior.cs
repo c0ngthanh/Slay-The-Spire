@@ -16,9 +16,15 @@ public class AttackBehavior : Behavior
         int damage = attackType switch
         {
             AttackType.FixedValue => value,
-            AttackType.CasterBlock => context.caster.Attribute.Block * value,
+            AttackType.CasterBlock => context.Caster.Attribute.Block * value,
             _ => 0
         };
-        Debug.Log($"Deal {damage} to targets");
+        string targetNames = context.Targets.Count == 0 ? "no target" : context.Targets[0].name;
+        
+        Debug.Log($"Deal {damage} to {targetNames}");
+        foreach (var target in context.Targets)
+        {
+            target.ModifyHP(-damage);
+        }
     }
 }

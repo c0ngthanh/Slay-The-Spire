@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameSystem : MonoBehaviour
@@ -30,6 +31,8 @@ public class GameSystem : MonoBehaviour
         systemDic.Add(typeof(EffectSystem), new EffectSystem());
         systemDic.Add(typeof(CombatSystem), new CombatSystem());
         systemDic.Add(typeof(CardSystem), new CardSystem());
+        systemDic.Add(typeof(TargetingSystem), new TargetingSystem());
+        systemDic.Add(typeof(UnitSystem), new UnitSystem());
         InitalizeAllSystems();
     }
 
@@ -51,18 +54,26 @@ public class GameSystem : MonoBehaviour
             return;
         }
     }
-    
+
+    private void Update()
+    {
+        foreach (var system in systemDic.Values)
+        {
+            system.Tick();
+        }
+    }
+
     private void Start(){
         // Temp code to start combat for testing
-        CombatUnit[] firstTeamUnits = new CombatUnit[firstTeam.Length];
+        List<CombatUnit> firstTeamUnits = new List<CombatUnit>();
         for(int i = 0; i < firstTeam.Length; i++){
             Debug.Log("First Team Unit " + i + " Attribute HP: " + firstTeam[i].MaxHPBase);
-            firstTeamUnits[i] = new CombatUnit(firstTeam[i]);
+            firstTeamUnits.Add(GetSystem<UnitSystem>().CreateCombatUnits(firstTeam[i])); // Create units using UnitSystem and add to list
         }
-        CombatUnit[] secondTeamUnits = new CombatUnit[secondTeam.Length];
+        List<CombatUnit> secondTeamUnits = new List<CombatUnit>();
         for(int i = 0; i < secondTeam.Length; i++){
             Debug.Log("Second Team Unit " + i + " Attribute HP: " + secondTeam[i].MaxHPBase);
-            secondTeamUnits[i] = new CombatUnit(secondTeam[i]);
+            secondTeamUnits.Add(GetSystem<UnitSystem>().CreateCombatUnits(secondTeam[i]));
         }
         GetSystem<CombatSystem>().StartCombat(firstTeamUnits, secondTeamUnits);
 

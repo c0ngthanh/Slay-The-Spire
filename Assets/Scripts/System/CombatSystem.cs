@@ -49,8 +49,8 @@ public class CombatSystem : SystemBase
         PhaseUnits[CombatPhase.EnemyTurn] = secondTeam;
         CombatEventDic[CombatEvent.StartCombat]?.Invoke();
         CurrentTurn = 0;
-        StartTurn();
         SetTeamPosition();
+        StartTurn();
     }
 
     private void SetTeamPosition()
@@ -112,5 +112,10 @@ public class CombatSystem : SystemBase
         if(!firstTeamAlive || !secondTeamAlive){
             CombatEventDic[CombatEvent.EndCombat]?.Invoke();
         }
+    }
+
+    public Dictionary<CombatPhase, List<CombatUnit>> GetAllUnits()
+    {
+        return PhaseUnits;
     }
 }

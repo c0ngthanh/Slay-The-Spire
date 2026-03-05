@@ -7,6 +7,7 @@ public class CardSO : ScriptableObject
     public string CardDescription = "Card Description";
     public int EnergyCost =0;
     public bool NeedToTarget = false;
+    public LayerMask TargetLayerMask;
     public CardType CardType;
     public CardTarget CardTarget;
     // What this Card does

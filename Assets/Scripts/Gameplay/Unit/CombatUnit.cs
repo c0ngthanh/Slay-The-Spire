@@ -4,22 +4,21 @@ using UnityEngine;
 public class CombatUnit : BaseUnit
 {
     public CombatAttribute Attribute {get; private set;}
-
     private List<Effect> effects;
-    public CombatUnit(CombatAttribute attribute)
+    public static CombatUnit Create(CombatAttribute attribute)
     {
-        Attribute = attribute.MakeCopy();
-        effects = new List<Effect>();
+        CombatUnit unit = Instantiate(attribute.CombatUnitObject);
+        unit.Attribute = attribute.MakeCopy();
+        unit.Attribute.HP = unit.Attribute.MaxHP;
+        unit.effects = new List<Effect>();
+        return unit;
     }
-    // private void Awake()
-    // {
-    //     Initalize();
-    // }   
-    // public void Initalize()
-    // {
-    //     Attribute = Attribute.CopyAttribute(BaseAttribute);
-    //     effects = new List<Effect>();
-    // }
+
+    public void SetPosition(Vector3 position)
+    {
+        transform.position = position;
+    }
+    
     private void ApplyEffects()
     {
         foreach (var effect in effects)
@@ -33,14 +32,18 @@ public class CombatUnit : BaseUnit
         effects.Add(effect);
     }
 
-    public void Heal(int amount)
+    public void ModifyHP(int amount)
     {
         Attribute.HP += amount;
         if (Attribute.HP > Attribute.MaxHP)
         {
             Attribute.HP = Attribute.MaxHP;
         }
-        Debug.Log($"{name} healed for {amount}. Current HP: {Attribute.HP}/{Attribute.MaxHP}");
+        else if (Attribute.HP < 0)
+        {
+            Attribute.HP = 0;
+            // Handle unit death if needed
+        }
+        EventBusSystem.Publish(new HPChangedEvent(UID, Attribute.HP, Attribute.MaxHP));
     }
-
 }
