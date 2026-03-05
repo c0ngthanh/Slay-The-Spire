@@ -53,7 +53,7 @@ public class RefactoredRelicTest : MonoBehaviour
         // Test: Fire Combat End Event
         Debug.Log(" Test: Firing CombatEndEvent (Priority + Context Test)...");
         Debug.Log(" Expectation: \n1) [Mock] Gained 10 Gold (High Prio)\n2) [Mock] Healed 5 HP (Low Prio)");
-        GlobalEventManager.Instance.Invoke(new CombatEndEvent { PlayerWon = true });
+        EventBusSystem.Publish(new CombatEndEvent { PlayerWon = true });
     }
 
     // Mock Context

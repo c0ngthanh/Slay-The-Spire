@@ -29,46 +29,41 @@ public class RelicManager : MonoBehaviour
 
     private void OnEnable()
     {
-        if (GlobalEventManager.Instance == null)
-        {
-            Debug.LogError("GlobalEventManager is not initialized!");
-            return;
-        }
-        GlobalEventManager.Instance.AddListener<CombatStartEvent>(OnCombatStart);
-        GlobalEventManager.Instance.AddListener<CombatEndEvent>(OnCombatEnd);
-        GlobalEventManager.Instance.AddListener<TurnStartEvent>(OnTurnStart);
-        GlobalEventManager.Instance.AddListener<TurnEndEvent>(OnTurnEnd);
-        GlobalEventManager.Instance.AddListener<PlayerLoseHPEvent>(OnLoseHP);
+        EventBusSystem.Subscribe<CombatStartEvent>(OnCombatStart);
+        EventBusSystem.Subscribe<CombatEndEvent>(OnCombatEnd);
+        EventBusSystem.Subscribe<TurnStartEvent>(OnTurnStart);
+        EventBusSystem.Subscribe<TurnEndEvent>(OnTurnEnd);
+        EventBusSystem.Subscribe<PlayerLoseHPEvent>(OnLoseHP);
 
         // Map/Room Events
-        GlobalEventManager.Instance.AddListener<RestSiteEnteredEvent>(OnRestSiteEntered);
-        GlobalEventManager.Instance.AddListener<ShopEnteredEvent>(OnShopEntered);
+        EventBusSystem.Subscribe<RestSiteEnteredEvent>(OnRestSiteEntered);
+        EventBusSystem.Subscribe<ShopEnteredEvent>(OnShopEntered);
 
         // Card Events
-        GlobalEventManager.Instance.AddListener<CardPlayedEvent>(OnCardPlayed);
-        GlobalEventManager.Instance.AddListener<CardDrawEvent>(OnCardDraw);
-        GlobalEventManager.Instance.AddListener<DeckShuffledEvent>(OnDeckShuffled);
+        EventBusSystem.Subscribe<CardPlayedEvent>(OnCardPlayed);
+        EventBusSystem.Subscribe<CardDrawEvent>(OnCardDraw);
+        EventBusSystem.Subscribe<DeckShuffledEvent>(OnDeckShuffled);
 
         // Meta
-        GlobalEventManager.Instance.AddListener<ObtainCurseEvent>(OnObtainCurse);
+        EventBusSystem.Subscribe<ObtainCurseEvent>(OnObtainCurse);
     }
 
     private void OnDisable()
     {
-        GlobalEventManager.Instance.RemoveListener<CombatStartEvent>(OnCombatStart);
-        GlobalEventManager.Instance.RemoveListener<CombatEndEvent>(OnCombatEnd);
-        GlobalEventManager.Instance.RemoveListener<TurnStartEvent>(OnTurnStart);
-        GlobalEventManager.Instance.RemoveListener<TurnEndEvent>(OnTurnEnd);
-        GlobalEventManager.Instance.RemoveListener<PlayerLoseHPEvent>(OnLoseHP);
+        EventBusSystem.Unsubscribe<CombatStartEvent>(OnCombatStart);
+        EventBusSystem.Unsubscribe<CombatEndEvent>(OnCombatEnd);
+        EventBusSystem.Unsubscribe<TurnStartEvent>(OnTurnStart);
+        EventBusSystem.Unsubscribe<TurnEndEvent>(OnTurnEnd);
+        EventBusSystem.Unsubscribe<PlayerLoseHPEvent>(OnLoseHP);
 
-        GlobalEventManager.Instance.RemoveListener<RestSiteEnteredEvent>(OnRestSiteEntered);
-        GlobalEventManager.Instance.RemoveListener<ShopEnteredEvent>(OnShopEntered);
+        EventBusSystem.Unsubscribe<RestSiteEnteredEvent>(OnRestSiteEntered);
+        EventBusSystem.Unsubscribe<ShopEnteredEvent>(OnShopEntered);
 
-        GlobalEventManager.Instance.RemoveListener<CardPlayedEvent>(OnCardPlayed);
-        GlobalEventManager.Instance.RemoveListener<CardDrawEvent>(OnCardDraw);
-        GlobalEventManager.Instance.RemoveListener<DeckShuffledEvent>(OnDeckShuffled);
+        EventBusSystem.Unsubscribe<CardPlayedEvent>(OnCardPlayed);
+        EventBusSystem.Unsubscribe<CardDrawEvent>(OnCardDraw);
+        EventBusSystem.Unsubscribe<DeckShuffledEvent>(OnDeckShuffled);
 
-        GlobalEventManager.Instance.RemoveListener<ObtainCurseEvent>(OnObtainCurse);
+        EventBusSystem.Unsubscribe<ObtainCurseEvent>(OnObtainCurse);
     }
 
     // --- Handlers ---
