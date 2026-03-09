@@ -2,12 +2,6 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-public enum CombatEvent{
-    StartCombat, 
-    StartTurn,
-    EndTurn,
-    EndCombat
-}
 
 public enum CombatPhase{
     PlayerTurn,
@@ -21,13 +15,7 @@ public class CombatSystem : SystemBase
     public CombatUnit currentUnit;
     private CombatPhase currentPhase = CombatPhase.PlayerTurn;
 
-    public Dictionary<CombatEvent, Action> CombatEventDic = new ();
     public override void Initialize(){
-        CombatEventDic[CombatEvent.StartCombat] = () => {};
-        CombatEventDic[CombatEvent.StartTurn] = () => {};
-        CombatEventDic[CombatEvent.EndTurn] = () => {};
-        CombatEventDic[CombatEvent.EndCombat] = () => {};
-
         EventBusSystem.Subscribe<EndTurnEvent>(EndTurn);
     }
     public override void Dispose()
@@ -35,19 +23,10 @@ public class CombatSystem : SystemBase
         //;
     }
 
-    public Action GetActionByType(CombatEvent eventType){
-        if(CombatEventDic.ContainsKey(eventType)){
-            return CombatEventDic[eventType];
-        }else{
-            Debug.LogError("CombatSystem: No Action found for event type " + eventType.ToString());
-            return null;
-        }
-    }
-
     public void StartCombat(List<CombatUnit> firstTeam, List<CombatUnit> secondTeam){
         PhaseUnits[CombatPhase.PlayerTurn] = firstTeam;
         PhaseUnits[CombatPhase.EnemyTurn] = secondTeam;
-        CombatEventDic[CombatEvent.StartCombat]?.Invoke();
+        EventBusSystem.Publish(new CombatStartEvent());
         CurrentTurn = 0;
         SetTeamPosition();
         StartTurn();
@@ -66,7 +45,7 @@ public class CombatSystem : SystemBase
     }
 
     private void StartTurn(){
-        CombatEventDic[CombatEvent.StartTurn]?.Invoke();
+        EventBusSystem.Publish(new TurnStartEvent());
         // wait for player input or AI decision
         CurrentTurn += 1;
         if(currentPhase == CombatPhase.PlayerTurn){
@@ -82,7 +61,7 @@ public class CombatSystem : SystemBase
     }
 
     private void EndTurn(EndTurnEvent @event){
-        CombatEventDic[CombatEvent.EndTurn]?.Invoke();
+        EventBusSystem.Publish(new TurnEndEvent());
         if(currentPhase == CombatPhase.PlayerTurn){
             currentPhase = CombatPhase.EnemyTurn;
         }
@@ -110,7 +89,7 @@ public class CombatSystem : SystemBase
             }
         }
         if(!firstTeamAlive || !secondTeamAlive){
-            CombatEventDic[CombatEvent.EndCombat]?.Invoke();
+            EventBusSystem.Publish(new CombatEndEvent());
         }
     }
 

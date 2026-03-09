@@ -77,11 +77,9 @@ public class GameSystem : MonoBehaviour
             Debug.Log("Second Team Unit " + i + " Attribute HP: " + secondTeam[i].MaxHPBase);
             secondTeamUnits.Add(GetSystem<UnitSystem>().CreateCombatUnits(secondTeam[i]));
         }
-        GetSystem<CombatSystem>().StartCombat(firstTeamUnits, secondTeamUnits);
+        GetSystem<CardSystem>().InitDeck(cardSOList);
 
-        foreach(var cardSO in cardSOList){
-            GetSystem<CardSystem>().AddCardToHand(cardSO, 1);
-        }
+        GetSystem<CombatSystem>().StartCombat(firstTeamUnits, secondTeamUnits);
 
         if (relicSOList != null)
         {

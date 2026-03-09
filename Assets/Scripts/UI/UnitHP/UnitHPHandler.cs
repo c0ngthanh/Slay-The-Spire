@@ -19,10 +19,7 @@ public class UnitHPHandler : MonoBehaviour
     private void SpawnAllHpBar(CombatInfoEvent @event)
     {
         //Return all HP bars to the pool before spawning new ones
-        foreach (var hb in activeHPBars)
-        {
-            hpBarPool.ReturnToPool(hb);
-        }
+        hpBarPool.ReturnAllToPool();
         activeHPBars.Clear();
 
         foreach (var unit in @event.PlayerTeam)

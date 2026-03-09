@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b830ff4814791a4fa1fa064793b697f, type: 3}
   m_Name: IronClad
   m_EditorClassIdentifier: 
-  CombatUnitObject: {fileID: 6605267759053246403, guid: 402aa9e47c4b23741b2d30b258cb5b5d, type: 3}
+  CombatUnitObject: {fileID: 6605267759053246403, guid: 5be84d63146646e40940fddd2526d42f, type: 3}
   MaxHPBase: 95
   MaxHP: 0
   HP: 0

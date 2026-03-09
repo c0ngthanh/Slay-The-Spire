@@ -6,10 +6,20 @@ public class CardSystem : SystemBase
 {
     private CardSO currentCardSO = null;
     private Card currentSelectedCard = null;
+    [SerializeField] private List<CardSO> currentPlayerCard = new List<CardSO>();
+    [SerializeField] private List<CardSO> playerDeck = new List<CardSO>();
+
+    private int currentCardNumber = 0;
     public override void Initialize()
     {
         EventBusSystem.Subscribe<CardSelectedEvent>(SelectCard);
         EventBusSystem.Subscribe<TargetSelectedEvent>(OnTargetSelected);
+        EventBusSystem.Subscribe<TurnStartEvent>(OnTurnStart);
+    }
+
+    private void OnTurnStart(TurnStartEvent @event)
+    {
+        DrawCardFromDeck(5);
     }
 
     private void OnTargetSelected(TargetSelectedEvent @event)
@@ -22,14 +32,34 @@ public class CardSystem : SystemBase
         }
     }
 
-    List<CardSO> currentPlayerCard = new List<CardSO>();
-    public void AddCardToHand(CardSO cardSO, int number = 1)
+    // public void AddCardToHand(CardSO cardSO, int number = 1)
+    // {
+    //     for(int i = 0; i < number; i++)
+    //     {
+    //         currentPlayerCard.Add(cardSO);
+    //         EventBusSystem.Publish(new AddCardToHandEvent(cardSO));
+    //     }
+    // }
+
+    public void DrawCardFromDeck(int number = 5)
     {
+        Debug.Log("CardSystem: Drawing " + number + " cards from deck." + " Current deck size: " + playerDeck.Count);
+        currentPlayerCard.Clear();
         for(int i = 0; i < number; i++)
         {
-            currentPlayerCard.Add(cardSO);
-            EventBusSystem.Publish(new AddCardToHandEvent(cardSO));
+            if(playerDeck.Count > 0)
+            {
+                CardSO drawnCard = playerDeck[0];
+                playerDeck.RemoveAt(0);
+                currentPlayerCard.Add(drawnCard);
+            }
+            else
+            {
+                Debug.LogWarning("CardSystem: Deck is empty, cannot draw more cards.");
+                break;
+            }
         }
+        EventBusSystem.Publish(new AddCardToHandEvent(currentPlayerCard));
     }
 
     public void SelectCard(CardSelectedEvent @event)
@@ -88,5 +118,16 @@ public class CardSystem : SystemBase
         currentSelectedCard.MoveToGraveyard();
         currentCardSO = null;
         currentSelectedCard = null;
+    }
+
+    internal void InitDeck(List<CardSO> cardSOList)
+    {
+        playerDeck.Clear();
+        currentCardNumber = 40;
+        for(int i = 0; i < currentCardNumber; i++)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, cardSOList.Count);
+            playerDeck.Add(cardSOList[randomIndex]);
+        }
     }
 }

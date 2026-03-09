@@ -1028,9 +1028,6 @@ MonoBehaviour:
   cardSOList:
   - {fileID: 11400000, guid: 134e8745b64c0ff49b9c62ff7fa7d161, type: 2}
   - {fileID: 11400000, guid: 476dd4e6dda095c4592801bbc9166b02, type: 2}
-  - {fileID: 11400000, guid: 476dd4e6dda095c4592801bbc9166b02, type: 2}
-  - {fileID: 11400000, guid: 134e8745b64c0ff49b9c62ff7fa7d161, type: 2}
-  - {fileID: 11400000, guid: 476dd4e6dda095c4592801bbc9166b02, type: 2}
 --- !u!4 &2055687857
 Transform:
   m_ObjectHideFlags: 0
