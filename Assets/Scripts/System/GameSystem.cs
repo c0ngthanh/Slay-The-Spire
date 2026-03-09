@@ -33,6 +33,7 @@ public class GameSystem : MonoBehaviour
         systemDic.Add(typeof(CardSystem), new CardSystem());
         systemDic.Add(typeof(TargetingSystem), new TargetingSystem());
         systemDic.Add(typeof(UnitSystem), new UnitSystem());
+        systemDic.Add(typeof(RelicSystem), new RelicSystem());
         InitalizeAllSystems();
     }
 

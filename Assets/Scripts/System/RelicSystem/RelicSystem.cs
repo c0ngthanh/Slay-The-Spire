@@ -1,34 +1,22 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class RelicManager : MonoBehaviour
+public class RelicSystem : SystemBase
 {
     public List<RelicRuntime> ownedRelics = new();
 
-    // For testing/reference
-    public List<RelicSO> startingRelics;
-
     // Context
     public IGameContext Context { get; private set; }
-
-    private void Start()
-    {
-        // Inject Default Context
-        Init(new GameContext());
-
-        foreach (var relicSO in startingRelics)
-        {
-            AddRelic(relicSO);
-        }
-    }
 
     public void Init(IGameContext ctx)
     {
         Context = ctx;
     }
 
-    private void OnEnable()
+    public override void Initialize()
     {
+        base.Initialize();
+        if (Context == null) Init(new GameContext());
         EventBusSystem.Subscribe<CombatStartEvent>(OnCombatStart);
         EventBusSystem.Subscribe<CombatEndEvent>(OnCombatEnd);
         EventBusSystem.Subscribe<TurnStartEvent>(OnTurnStart);
@@ -48,8 +36,9 @@ public class RelicManager : MonoBehaviour
         EventBusSystem.Subscribe<ObtainCurseEvent>(OnObtainCurse);
     }
 
-    private void OnDisable()
+    public override void Dispose()
     {
+        base.Dispose();
         EventBusSystem.Unsubscribe<CombatStartEvent>(OnCombatStart);
         EventBusSystem.Unsubscribe<CombatEndEvent>(OnCombatEnd);
         EventBusSystem.Unsubscribe<TurnStartEvent>(OnTurnStart);
