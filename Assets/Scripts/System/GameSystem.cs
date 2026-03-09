@@ -13,6 +13,7 @@ public class GameSystem : MonoBehaviour
     [SerializeField] private CombatAttribute[] firstTeam;
     [SerializeField] private CombatAttribute[] secondTeam;
     [SerializeField] private List<CardSO> cardSOList;
+    [SerializeField] private List<RelicSO> relicSOList;
     public T GetSystem<T>() where T : SystemBase, new()
     {
         Type type = typeof(T);
@@ -80,6 +81,14 @@ public class GameSystem : MonoBehaviour
 
         foreach(var cardSO in cardSOList){
             GetSystem<CardSystem>().AddCardToHand(cardSO, 1);
+        }
+
+        if (relicSOList != null)
+        {
+            foreach (var relicSO in relicSOList)
+            {
+                GetSystem<RelicSystem>().AddRelic(relicSO);
+            }
         }
     }
 }
