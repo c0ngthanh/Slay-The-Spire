@@ -9,7 +9,7 @@ public class CardTypePlayedConditionSO : RelicConditionSO
     {
         if (gameEvent is CardPlayedEvent cardEvent)
         {
-            return cardEvent.Type == RequiredType;
+            return cardEvent.CardSO.CardType == RequiredType;
         }
 
         return false;

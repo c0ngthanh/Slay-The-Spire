@@ -3,9 +3,11 @@ using System.Collections.Generic;
 
 public class CardPlayedEvent : GameEvent
 {
-    // public CardData Card;
-    public int EnergyCost;
-    public CardType Type;
+    public CardSO CardSO;
+    public CardPlayedEvent(CardSO cardSO)
+    {
+        this.CardSO = cardSO;
+    }
 }
 
 public class CardDrawEvent : GameEvent
@@ -27,10 +29,8 @@ public class AddCardToHandEvent : GameEvent
 public class CardSelectedEvent : GameEvent
 {
     public CardSO CardSO;
-    public Card CurrentCard;
-    public CardSelectedEvent(CardSO cardSO, Card currentCard)
+    public CardSelectedEvent(CardSO cardSO)
     {
         this.CardSO = cardSO;
-        this.CurrentCard = currentCard;
     }
 }

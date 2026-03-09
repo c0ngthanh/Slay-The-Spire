@@ -75,9 +75,9 @@ public class RelicSystem : SystemBase
         Dispatch(GameTriggerType.OnCardPlayed, e);
 
         // Dispatch specific card type triggers
-        if (e.Type == CardType.Attack) Dispatch(GameTriggerType.OnAttackPlayed, e);
-        else if (e.Type == CardType.Skill) Dispatch(GameTriggerType.OnSkillPlayed, e);
-        else if (e.Type == CardType.Power) Dispatch(GameTriggerType.OnPowerPlayed, e);
+        if (e.CardSO.CardType == CardType.Attack) Dispatch(GameTriggerType.OnAttackPlayed, e);
+        else if (e.CardSO.CardType == CardType.Skill) Dispatch(GameTriggerType.OnSkillPlayed, e);
+        else if (e.CardSO.CardType == CardType.Power) Dispatch(GameTriggerType.OnPowerPlayed, e);
     }
 
     private void OnCardDraw(CardDrawEvent e) => Dispatch(GameTriggerType.OnCardDraw, e);

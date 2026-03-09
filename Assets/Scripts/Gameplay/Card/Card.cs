@@ -16,6 +16,24 @@ public class Card : MonoBehaviour, IPoolable
         toggle.onValueChanged.AddListener(OnToggleCard);
         toggle.group = GetComponentInParent<ToggleGroup>();
     }
+
+    private void OnEnable()
+    {
+        EventBusSystem.Subscribe<CardPlayedEvent>(OnCardPlayed);
+    }
+
+    private void OnDisable()
+    {
+        EventBusSystem.Unsubscribe<CardPlayedEvent>(OnCardPlayed);
+    }
+
+    private void OnCardPlayed(CardPlayedEvent @event)
+    {
+        if (@event.CardSO == this.cardData && toggle.isOn)
+        {
+            MoveToGraveyard();
+        }
+    }
     public void Init(CardSO cardData)
     {
         this.cardData = cardData;
@@ -26,7 +44,7 @@ public class Card : MonoBehaviour, IPoolable
     {
         if(value)
         {
-            EventBusSystem.Publish(new CardSelectedEvent(cardData, this));
+            EventBusSystem.Publish(new CardSelectedEvent(cardData));
             GetComponent<Image>().color = Color.gray;
         }
         else

@@ -5,7 +5,6 @@ using UnityEngine;
 public class CardSystem : SystemBase
 {
     private CardSO currentCardSO = null;
-    private Card currentSelectedCard = null;
     [SerializeField] private List<CardSO> currentPlayerCard = new List<CardSO>();
     [SerializeField] private List<CardSO> playerDeck = new List<CardSO>();
 
@@ -65,13 +64,12 @@ public class CardSystem : SystemBase
     public void SelectCard(CardSelectedEvent @event)
     {
         currentCardSO = @event.CardSO;
-        currentSelectedCard = @event.CurrentCard;
         ActiveCard();
     }
 
     public void ActiveCard()
     {
-        if(currentSelectedCard != null)
+        if(currentCardSO != null)
         {
             if(currentCardSO.NeedToTarget)
             {
@@ -115,9 +113,8 @@ public class CardSystem : SystemBase
         {
             behavior.Execute(context);
         }
-        currentSelectedCard.MoveToGraveyard();
+        EventBusSystem.Publish(new CardPlayedEvent(currentCardSO));
         currentCardSO = null;
-        currentSelectedCard = null;
     }
 
     internal void InitDeck(List<CardSO> cardSOList)
