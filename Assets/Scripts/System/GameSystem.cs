@@ -35,6 +35,7 @@ public class GameSystem : MonoBehaviour
         systemDic.Add(typeof(TargetingSystem), new TargetingSystem());
         systemDic.Add(typeof(UnitSystem), new UnitSystem());
         systemDic.Add(typeof(RelicSystem), new RelicSystem());
+        systemDic.Add(typeof(UISystem), new UISystem());
         InitalizeAllSystems();
     }
 
@@ -88,5 +89,6 @@ public class GameSystem : MonoBehaviour
                 GetSystem<RelicSystem>().AddRelic(relicSO);
             }
         }
+        GetSystem<UISystem>().ShowUI<CombatUI>();
     }
 }

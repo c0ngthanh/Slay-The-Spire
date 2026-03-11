@@ -2,15 +2,23 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CombatUI : MonoBehaviour
+public class CombatUI : BaseUI
 {
     [SerializeField] private Button endTurnBtn;
+    [SerializeField] private Button deckBtn;
     [SerializeField] private Text infoText;
 
     private void Awake()
     {
         endTurnBtn.onClick.AddListener(OnEndTurnClicked);
+        deckBtn.onClick.AddListener(OnOpenDeck);
         EventBusSystem.Subscribe<CombatInfoEvent>(OnCombatInfo);
+    }
+
+    private void OnOpenDeck()
+    {
+        UISystem uiSystem = GameSystem.Instance.GetSystem<UISystem>();
+        uiSystem.ShowUI<CardDeck>();
     }
 
     private void OnCombatInfo(CombatInfoEvent evt)

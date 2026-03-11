@@ -117,7 +117,7 @@ public class CardSystem : SystemBase
         currentCardSO = null;
     }
 
-    internal void InitDeck(List<CardSO> cardSOList)
+    public void InitDeck(List<CardSO> cardSOList)
     {
         playerDeck.Clear();
         currentCardNumber = 40;
@@ -126,5 +126,10 @@ public class CardSystem : SystemBase
             int randomIndex = UnityEngine.Random.Range(0, cardSOList.Count);
             playerDeck.Add(cardSOList[randomIndex]);
         }
+    }
+
+    public List<CardSO> GetCurrentPlayerCard()
+    {
+        return playerDeck;
     }
 }
