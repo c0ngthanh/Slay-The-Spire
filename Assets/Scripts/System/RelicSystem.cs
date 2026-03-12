@@ -5,6 +5,18 @@ public class RelicSystem : SystemBase
 {
     public List<RelicRuntime> ownedRelics = new();
 
+    // Example of using the new RelicSystemData without changing existing syntax
+    public void ExampleUseRelicData()
+    {
+        // 1. Fetch the data state for this specific system
+        var data = GameData.Instance.GetSystemData<RelicSystemData>();
+
+        // 2. You can now read or write to the separated data object!
+        Debug.Log("Example: Currently we have " + data.ownedRelics.Count + " relics in separated Data!");
+
+        // E.g., data.ownedRelics.Add(new RelicRuntime(relic));
+    }
+
     // Context
     public IGameContext Context { get; private set; }
 

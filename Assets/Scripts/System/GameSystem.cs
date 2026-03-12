@@ -50,6 +50,7 @@ public class GameSystem : MonoBehaviour
     private void Awake(){
         if(Instance == null){
             Instance = this;
+            new GameData(); // Initialize global Data Holder without breaking existing logic
             Initialize();
             DontDestroyOnLoad(this.gameObject);
         }else{
@@ -87,8 +88,13 @@ public class GameSystem : MonoBehaviour
             foreach (var relicSO in relicSOList)
             {
                 GetSystem<RelicSystem>().AddRelic(relicSO);
+                // Temporarily add a replica into the separated data to show it's working
+                GameData.Instance.GetSystemData<RelicSystemData>().ownedRelics.Add(new RelicRuntime(relicSO));
             }
         }
         GetSystem<UISystem>().ShowUI<CombatUI>();
+
+        // Test the Relic Data Separator approach
+        GetSystem<RelicSystem>().ExampleUseRelicData();
     }
 }
