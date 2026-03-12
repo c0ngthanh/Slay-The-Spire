@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class CardSystem : SystemBase
 {
-    private CardSO currentCardSO = null;
-    [SerializeField] private List<CardSO> currentPlayerCard = new List<CardSO>();
-    [SerializeField] private List<CardSO> playerDeck = new List<CardSO>();
+    private CardModel cardModel => GameModel.Instance.GetModel<CardModel>();
 
     private int currentCardNumber = 0;
     public override void Initialize()
@@ -23,7 +21,7 @@ public class CardSystem : SystemBase
 
     private void OnTargetSelected(TargetSelectedEvent @event)
     {
-        if(currentCardSO != null && currentCardSO.NeedToTarget)
+        if(cardModel.CurrentCardSO != null && cardModel.CurrentCardSO.NeedToTarget)
         {
             CardExecutionContext context = new CardExecutionContext();
             context.AddTarget(@event.Unit);
@@ -35,22 +33,22 @@ public class CardSystem : SystemBase
     // {
     //     for(int i = 0; i < number; i++)
     //     {
-    //         currentPlayerCard.Add(cardSO);
+    //         cardModel.CurrentPlayerCard.Add(cardSO);
     //         EventBusSystem.Publish(new AddCardToHandEvent(cardSO));
     //     }
     // }
 
     public void DrawCardFromDeck(int number = 5)
     {
-        Debug.Log("CardSystem: Drawing " + number + " cards from deck." + " Current deck size: " + playerDeck.Count);
-        currentPlayerCard.Clear();
+        Debug.Log("CardSystem: Drawing " + number + " cards from deck." + " Current deck size: " + cardModel.PlayerDeck.Count);
+        cardModel.CurrentPlayerCard.Clear();
         for(int i = 0; i < number; i++)
         {
-            if(playerDeck.Count > 0)
+            if(cardModel.PlayerDeck.Count > 0)
             {
-                CardSO drawnCard = playerDeck[0];
-                playerDeck.RemoveAt(0);
-                currentPlayerCard.Add(drawnCard);
+                CardSO drawnCard = cardModel.PlayerDeck[0];
+                cardModel.PlayerDeck.RemoveAt(0);
+                cardModel.CurrentPlayerCard.Add(drawnCard);
             }
             else
             {
@@ -58,30 +56,30 @@ public class CardSystem : SystemBase
                 break;
             }
         }
-        EventBusSystem.Publish(new AddCardToHandEvent(currentPlayerCard));
+        EventBusSystem.Publish(new AddCardToHandEvent(cardModel.CurrentPlayerCard));
     }
 
     public void SelectCard(CardSelectedEvent @event)
     {
-        currentCardSO = @event.CardSO;
+        cardModel.SetCurrentCard(@event.CardSO);
         ActiveCard();
     }
 
     public void ActiveCard()
     {
-        if(currentCardSO != null)
+        if(cardModel.CurrentCardSO != null)
         {
-            if(currentCardSO.NeedToTarget)
+            if(cardModel.CurrentCardSO.NeedToTarget)
             {
                 // Waiting for target selection
                 // Currently dont need targeting System -> maybe add for later
-                EventBusSystem.Publish(new StartTargetingEvent(currentCardSO.TargetLayerMask));
+                EventBusSystem.Publish(new StartTargetingEvent(cardModel.CurrentCardSO.TargetLayerMask));
             }
             else
             {
-                var allUnits = GameSystem.Instance.GetSystem<CombatSystem>().GetAllUnits();
+                var allUnits = GameManager.Instance.GetSystem<CombatSystem>().GetAllUnits();
                 CardExecutionContext context = new CardExecutionContext();
-                switch(currentCardSO.CardTarget)
+                switch(cardModel.CurrentCardSO.CardTarget)
                 {
                     case CardTarget.All:
                         context.AddTarget(allUnits[CombatPhase.PlayerTurn]);
@@ -94,7 +92,7 @@ public class CardSystem : SystemBase
                         context.AddTarget(allUnits[CombatPhase.PlayerTurn]);
                         break;
                     default:
-                        Debug.LogError("CardSystem: Unsupported card target type " + currentCardSO.CardTarget.ToString());
+                        Debug.LogError("CardSystem: Unsupported card target type " + cardModel.CurrentCardSO.CardTarget.ToString());
                         break;
                 }
 
@@ -109,27 +107,23 @@ public class CardSystem : SystemBase
         {
             context = new CardExecutionContext();
         }
-        foreach (var behavior in currentCardSO.CardBehavior)
+        foreach (var behavior in cardModel.CurrentCardSO.CardBehavior)
         {
             behavior.Execute(context);
         }
-        EventBusSystem.Publish(new CardPlayedEvent(currentCardSO));
-        currentCardSO = null;
+        EventBusSystem.Publish(new CardPlayedEvent(cardModel.CurrentCardSO));
+        cardModel.PlayerGraveyard.Add(cardModel.CurrentCardSO);
+        cardModel.SetCurrentCard(null);
     }
 
     public void InitDeck(List<CardSO> cardSOList)
     {
-        playerDeck.Clear();
+        cardModel.PlayerDeck.Clear();
         currentCardNumber = 40;
         for(int i = 0; i < currentCardNumber; i++)
         {
             int randomIndex = UnityEngine.Random.Range(0, cardSOList.Count);
-            playerDeck.Add(cardSOList[randomIndex]);
+            cardModel.PlayerDeck.Add(cardSOList[randomIndex]);
         }
-    }
-
-    public List<CardSO> GetCurrentPlayerCard()
-    {
-        return playerDeck;
     }
 }

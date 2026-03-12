@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class GameData
+public class GameModel
 {
     // Singleton access if we want to call it from everywhere without passing GameSystem around
     // Or we provide it through GameSystem. Let's make it accessible globally since the user asked for it to be "called in every where in project".
-    public static GameData Instance { get; private set; }
+    public static GameModel Instance { get; private set; }
 
-    private Dictionary<Type, SystemData> dataDic = new Dictionary<Type, SystemData>();
+    private Dictionary<Type, ModelBase> dataDic = new Dictionary<Type, ModelBase>();
 
-    public GameData()
+    public GameModel()
     {
         Instance = this;
     }
 
-    public T GetSystemData<T>() where T : SystemData, new()
+    public T GetModel<T>() where T : ModelBase, new()
     {
         Type type = typeof(T);
         if (!dataDic.ContainsKey(type))
@@ -28,7 +28,7 @@ public class GameData
         return dataDic[type] as T;
     }
 
-    public void RegisterData<T>(T data) where T : SystemData
+    public void RegisterModel<T>(T data) where T : ModelBase
     {
         Type type = typeof(T);
         dataDic[type] = data;

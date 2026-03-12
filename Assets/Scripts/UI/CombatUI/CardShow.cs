@@ -1,7 +1,8 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CardDeck : BaseUI
+public class CardShow : BaseUI
 {
     [SerializeField] private Card cardPrefab;
     [SerializeField] private Transform content;
@@ -18,13 +19,19 @@ public class CardDeck : BaseUI
 
     protected override void OnShow()
     {
+        // Now wait for ShowCards to be called to populate the list.
+        cardPool.ReturnAllToPool(); 
+    }
+
+    public void ShowCards(List<CardSO> cards)
+    {
         cardPool.ReturnAllToPool(); // Clear existing cards before adding new ones
-        GameSystem.Instance.GetSystem<CardSystem>().GetCurrentPlayerCard().ForEach(cardSO =>
+        foreach (var cardSO in cards)
         {
             Card card = cardPool.Get();
             card.Init(cardSO);
             card.gameObject.SetActive(true);
-        });
+        }
     }
 
     protected override void OnHide()

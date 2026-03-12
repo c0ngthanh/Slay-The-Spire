@@ -6,19 +6,33 @@ public class CombatUI : BaseUI
 {
     [SerializeField] private Button endTurnBtn;
     [SerializeField] private Button deckBtn;
+    [SerializeField] private Button graveyardBtn;
     [SerializeField] private Text infoText;
+    [SerializeField] private CardCombat cardCombat;
 
-    private void Awake()
+    private CardModel cardModel => GameModel.Instance.GetModel<CardModel>();
+
+    protected override void OnInialize()
     {
         endTurnBtn.onClick.AddListener(OnEndTurnClicked);
         deckBtn.onClick.AddListener(OnOpenDeck);
+        graveyardBtn.onClick.AddListener(OnOpenGraveyard);
         EventBusSystem.Subscribe<CombatInfoEvent>(OnCombatInfo);
+        cardCombat.Init();
+    }
+
+    private void OnOpenGraveyard()
+    {
+        UISystem uiSystem = GameManager.Instance.GetSystem<UISystem>();
+        CardShow cardDeck = uiSystem.ShowUI<CardShow>();
+        cardDeck.ShowCards(cardModel.PlayerGraveyard); 
     }
 
     private void OnOpenDeck()
     {
-        UISystem uiSystem = GameSystem.Instance.GetSystem<UISystem>();
-        uiSystem.ShowUI<CardDeck>();
+        UISystem uiSystem = GameManager.Instance.GetSystem<UISystem>();
+        CardShow cardDeck = uiSystem.ShowUI<CardShow>();
+        cardDeck.ShowCards(cardModel.PlayerDeck);
     }
 
     private void OnCombatInfo(CombatInfoEvent evt)

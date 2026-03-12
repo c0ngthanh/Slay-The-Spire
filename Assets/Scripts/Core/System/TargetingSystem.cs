@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class TargetingSystem : SystemBase
 {
-    private bool IsTargeting = false;
-
+    private TargetingModel targetingModel => GameModel.Instance.GetModel<TargetingModel>();
     private LayerMask targetLayerMask;
     
     public override void Initialize()
@@ -14,13 +13,13 @@ public class TargetingSystem : SystemBase
 
     private void OnWaitForTarget(StartTargetingEvent @event)
     {
-        IsTargeting = true;
+        targetingModel.StartTargeting(true);
         targetLayerMask = @event.LayerMask;
     }
 
     public override void Tick()
     {
-        if(IsTargeting)
+        if(targetingModel.IsTargeting)
         {
             // Logic for targeting (e.g., highlight selectable targets, handle input)
             if(Input.GetMouseButtonDown(0))
@@ -32,7 +31,7 @@ public class TargetingSystem : SystemBase
                     if(target != null && targetLayerMask == (1<<target.gameObject.layer))
                     {
                         EventBusSystem.Publish(new TargetSelectedEvent(target));
-                        IsTargeting = false;
+                        targetingModel.StartTargeting(false);
                     }
                 }
             }

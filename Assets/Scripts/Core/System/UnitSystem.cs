@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UnitSystem : SystemBase
 {
-    public List<BaseUnit> CurrentUnits { get; private set; } = new List<BaseUnit>();
+    private UnitModel unitModel => GameModel.Instance.GetModel<UnitModel>();
 
     private int currentUID = 0;
 
@@ -12,14 +12,14 @@ public class UnitSystem : SystemBase
     {
         CombatUnit unit = CombatUnit.Create(attributes);
         unit.UID = currentUID++;
-        CurrentUnits.Add(unit);
+        unitModel.CurrentUnits.Add(unit);
         return unit;
     }
     
     private void RemoveUnit(CombatUnit unit)
     {
         // Destroy or return to pool // TODO: Implement object pooling for better performance
-        CurrentUnits.Remove(unit);
+        unitModel.CurrentUnits.Remove(unit);
         GameObject.Destroy(unit.gameObject);
         // Additional cleanup if needed
     }

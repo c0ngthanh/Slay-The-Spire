@@ -9,7 +9,7 @@ public class RelicSystem : SystemBase
     public void ExampleUseRelicData()
     {
         // 1. Fetch the data state for this specific system
-        var data = GameData.Instance.GetSystemData<RelicSystemData>();
+        var data = GameModel.Instance.GetModel<RelicSystemData>();
 
         // 2. You can now read or write to the separated data object!
         Debug.Log("Example: Currently we have " + data.ownedRelics.Count + " relics in separated Data!");

@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Collections.Generic;
 
 [Serializable]
-public class RelicSystemData : SystemData
+public class RelicSystemData : ModelBase
 {
     public List<RelicRuntime> ownedRelics = new List<RelicRuntime>();
 }
