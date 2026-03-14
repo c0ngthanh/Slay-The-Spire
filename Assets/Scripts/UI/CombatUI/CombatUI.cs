@@ -9,6 +9,7 @@ public class CombatUI : BaseUI
     [SerializeField] private Button graveyardBtn;
     [SerializeField] private Text infoText;
     [SerializeField] private CardCombat cardCombat;
+    [SerializeField] private UnitHPHandler unitHPHandler;
 
     private CardModel cardModel => GameModel.Instance.GetModel<CardModel>();
 
@@ -19,6 +20,7 @@ public class CombatUI : BaseUI
         graveyardBtn.onClick.AddListener(OnOpenGraveyard);
         EventBusSystem.Subscribe<CombatInfoEvent>(OnCombatInfo);
         cardCombat.Init();
+        unitHPHandler.Init();
     }
 
     private void OnOpenGraveyard()

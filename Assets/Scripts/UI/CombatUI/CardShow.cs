@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using ObservableCollections;
+using R3;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,7 +25,7 @@ public class CardShow : BaseUI
         cardPool.ReturnAllToPool(); 
     }
 
-    public void ShowCards(List<CardSO> cards)
+    public void ShowCards(ObservableList<CardSO> cards)
     {
         cardPool.ReturnAllToPool(); // Clear existing cards before adding new ones
         foreach (var cardSO in cards)

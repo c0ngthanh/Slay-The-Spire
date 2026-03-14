@@ -5,6 +5,7 @@ using UnityEngine;
 public class CardSystem : SystemBase
 {
     private CardModel cardModel => GameModel.Instance.GetModel<CardModel>();
+    private CombatModel combatModel => GameModel.Instance.GetModel<CombatModel>();
 
     private int currentCardNumber = 0;
     public override void Initialize()
@@ -40,15 +41,15 @@ public class CardSystem : SystemBase
 
     public void DrawCardFromDeck(int number = 5)
     {
+        cardModel.ClearHand();
         Debug.Log("CardSystem: Drawing " + number + " cards from deck." + " Current deck size: " + cardModel.PlayerDeck.Count);
-        cardModel.CurrentPlayerCard.Clear();
         for(int i = 0; i < number; i++)
         {
             if(cardModel.PlayerDeck.Count > 0)
             {
                 CardSO drawnCard = cardModel.PlayerDeck[0];
                 cardModel.PlayerDeck.RemoveAt(0);
-                cardModel.CurrentPlayerCard.Add(drawnCard);
+                cardModel.AddCardToHand(drawnCard);
             }
             else
             {
@@ -56,7 +57,7 @@ public class CardSystem : SystemBase
                 break;
             }
         }
-        EventBusSystem.Publish(new AddCardToHandEvent(cardModel.CurrentPlayerCard));
+        // EventBusSystem.Publish(new AddCardToHandEvent(cardModel.CurrentPlayerCard));
     }
 
     public void SelectCard(CardSelectedEvent @event)
@@ -77,7 +78,7 @@ public class CardSystem : SystemBase
             }
             else
             {
-                var allUnits = GameManager.Instance.GetSystem<CombatSystem>().GetAllUnits();
+                var allUnits = combatModel.GetAllUnits();
                 CardExecutionContext context = new CardExecutionContext();
                 switch(cardModel.CurrentCardSO.CardTarget)
                 {

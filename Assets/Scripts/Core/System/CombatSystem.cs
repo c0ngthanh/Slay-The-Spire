@@ -10,10 +10,8 @@ public enum CombatPhase{
 public class CombatSystem : SystemBase
 {
     // This information will be used to manage the combat state
-    public Dictionary<CombatPhase, List<CombatUnit>> PhaseUnits = new ();
-    public int CurrentTurn;
-    public CombatUnit currentUnit;
-    private CombatPhase currentPhase = CombatPhase.PlayerTurn;
+
+    private CombatModel combatModel => GameModel.Instance.GetModel<CombatModel>();
 
     public override void Initialize(){
         EventBusSystem.Subscribe<EndTurnEvent>(EndTurn);
@@ -24,31 +22,31 @@ public class CombatSystem : SystemBase
     }
 
     public void StartCombat(List<CombatUnit> firstTeam, List<CombatUnit> secondTeam){
-        PhaseUnits[CombatPhase.PlayerTurn] = firstTeam;
-        PhaseUnits[CombatPhase.EnemyTurn] = secondTeam;
+        combatModel.PhaseUnits[CombatPhase.PlayerTurn] = firstTeam;
+        combatModel.PhaseUnits[CombatPhase.EnemyTurn] = secondTeam;
         EventBusSystem.Publish(new CombatStartEvent());
-        CurrentTurn = 0;
+        combatModel.CurrentTurn = 0;
         SetTeamPosition();
         StartTurn();
     }
 
     private void SetTeamPosition()
     {
-        for(int i = 0; i < PhaseUnits[CombatPhase.PlayerTurn].Count; i++)
+        for(int i = 0; i < combatModel.PhaseUnits[CombatPhase.PlayerTurn].Count; i++)
         {
-            PhaseUnits[CombatPhase.PlayerTurn][i].SetPosition(new Vector3(-(3*i+4), 0, 0));
+            combatModel.PhaseUnits[CombatPhase.PlayerTurn][i].SetPosition(new Vector3(-(3*i+4), 0, 0));
         }
-        for(int i = 0; i < PhaseUnits[CombatPhase.EnemyTurn].Count; i++)
+        for(int i = 0; i < combatModel.PhaseUnits[CombatPhase.EnemyTurn].Count; i++)
         {
-            PhaseUnits[CombatPhase.EnemyTurn][i].SetPosition(new Vector3(3*i+2, 0, 0));
+            combatModel.PhaseUnits[CombatPhase.EnemyTurn][i].SetPosition(new Vector3(3*i+2, 0, 0));
         }
     }
 
     private void StartTurn(){
         EventBusSystem.Publish(new TurnStartEvent());
         // wait for player input or AI decision
-        CurrentTurn += 1;
-        if(currentPhase == CombatPhase.PlayerTurn){
+        combatModel.CurrentTurn += 1;
+        if(combatModel.CurrentPhase == CombatPhase.PlayerTurn){
             // Player Turn Logic
             Debug.Log("Player Turn Logic");
         }
@@ -57,17 +55,17 @@ public class CombatSystem : SystemBase
             Debug.Log("Enemy Turn Logic");
             EndTurn(new EndTurnEvent());
         }
-        EventBusSystem.Publish(new CombatInfoEvent(currentPhase.ToString(), PhaseUnits[CombatPhase.PlayerTurn], PhaseUnits[CombatPhase.EnemyTurn]));
+        EventBusSystem.Publish(new CombatInfoEvent(combatModel.CurrentPhase.ToString(), combatModel.PhaseUnits[CombatPhase.PlayerTurn], combatModel.PhaseUnits[CombatPhase.EnemyTurn]));
     }
 
     private void EndTurn(EndTurnEvent @event){
         EventBusSystem.Publish(new TurnEndEvent());
-        if(currentPhase == CombatPhase.PlayerTurn){
-            currentPhase = CombatPhase.EnemyTurn;
+        if(combatModel.CurrentPhase == CombatPhase.PlayerTurn){
+            combatModel.CurrentPhase = CombatPhase.EnemyTurn;
         }
         else
         {
-            currentPhase = CombatPhase.PlayerTurn;
+            combatModel.CurrentPhase = CombatPhase.PlayerTurn;
         }
         StartTurn();
     }
@@ -75,14 +73,14 @@ public class CombatSystem : SystemBase
     private void CheckForEndCombat()
     {
         bool firstTeamAlive = false;
-        foreach(var unit in PhaseUnits[CombatPhase.PlayerTurn]){
+        foreach(var unit in combatModel.PhaseUnits[CombatPhase.PlayerTurn]){
             if(unit.Attribute.HP > 0){
                 firstTeamAlive = true;
                 break;
             }
         }
         bool secondTeamAlive = false;
-        foreach(var unit in PhaseUnits[CombatPhase.EnemyTurn]){
+        foreach(var unit in combatModel.PhaseUnits[CombatPhase.EnemyTurn]){
             if(unit.Attribute.HP > 0){
                 secondTeamAlive = true;
                 break;
@@ -91,10 +89,5 @@ public class CombatSystem : SystemBase
         if(!firstTeamAlive || !secondTeamAlive){
             EventBusSystem.Publish(new CombatEndEvent());
         }
-    }
-
-    public Dictionary<CombatPhase, List<CombatUnit>> GetAllUnits()
-    {
-        return PhaseUnits;
     }
 }

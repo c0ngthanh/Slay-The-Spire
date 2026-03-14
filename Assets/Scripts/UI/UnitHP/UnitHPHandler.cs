@@ -1,32 +1,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitHPHandler : MonoBehaviour
+public class UnitHPHandler : MonoBehaviour, ISubView
 {
     [SerializeField] private HPBar hpBar;
 
     private SPool<HPBar> hpBarPool;
-    private List<HPBar> activeHPBars = new List<HPBar>();
 
     private Vector3 offset = new Vector3(0, -1, 0); // Offset above the unit
-    void Awake()
+
+    private CombatModel combatModel => GameModel.Instance.GetModel<CombatModel>();
+
+    public void Init()
     {
         hpBarPool = new SPool<HPBar>(hpBar, 5, transform);
         // Subscribe to HP change events if needed
-        EventBusSystem.Subscribe<CombatInfoEvent>(SpawnAllHpBar); // just use to spawn, active or deactive HPBar
+        SpawnAllHpBar();
     }
-    private void SpawnAllHpBar(CombatInfoEvent @event)
+
+    public void Tick()
+    {
+    }
+
+    private void SpawnAllHpBar()
     {
         //Return all HP bars to the pool before spawning new ones
         hpBarPool.ReturnAllToPool();
-        activeHPBars.Clear();
 
-        foreach (var unit in @event.PlayerTeam)
+        foreach (var unit in combatModel.PhaseUnits[CombatPhase.PlayerTurn])
         {
             SpawnSingleBar(unit);
         }
 
-        foreach (var unit in @event.EnemyTeam)
+        foreach (var unit in combatModel.PhaseUnits[CombatPhase.EnemyTurn])
         {
             SpawnSingleBar(unit);
         }
@@ -36,7 +42,6 @@ public class UnitHPHandler : MonoBehaviour
     private void SpawnSingleBar(CombatUnit unit)
     {
         HPBar hpBarInstance = hpBarPool.Get();
-        activeHPBars.Add(hpBarInstance);
 
         hpBarInstance.SetUnitUID(unit.UID);
         hpBarInstance.UpdateHPBar(unit.Attribute.HP, unit.Attribute.MaxHP);

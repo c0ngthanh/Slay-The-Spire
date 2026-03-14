@@ -1,8 +1,9 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
+using ObservableCollections;
+using System.Collections.Specialized;
 
-public class CardCombat : MonoBehaviour
+
+public class CardCombat : MonoBehaviour, ISubView
 {
     [SerializeField] private Card cardPrefab;
 
@@ -12,21 +13,36 @@ public class CardCombat : MonoBehaviour
     private CardModel cardModel => GameModel.Instance.GetModel<CardModel>();
     public void Init()
     {
-        EventBusSystem.Subscribe<AddCardToHandEvent>(OnAddCardToHand);
         hpBarPool = new SPool<Card>(cardPrefab, 3, transform);
+        cardModel.CurrentPlayerCard.CollectionChanged += OnAddCardToHand;
+        ShowCurrentCard(); // NEED TO REMOVE WHEN REMOVE TEST CODE
+    }
 
-        hpBarPool.ReturnAllToPool(); // Clear existing cards before adding new ones
-        foreach (var cardSO in cardModel.CurrentPlayerCard)
+    public void Tick()
+    {
+        
+    }
+
+    private void OnAddCardToHand(in NotifyCollectionChangedEventArgs<CardSO> @event)
+    {
+        switch(@event.Action)
         {
-            Card newCard = hpBarPool.Get();
-            newCard.Init(cardSO);
+            case NotifyCollectionChangedAction.Add:
+                Card card = hpBarPool.Get();
+                card.Init(@event.NewItem);
+                break;
+            case NotifyCollectionChangedAction.Remove:
+                // Handle card removal if necessary
+                break;
+            case NotifyCollectionChangedAction.Reset:
+                hpBarPool.ReturnAllToPool();
+                break;
         }
     }
-    
-    private void OnAddCardToHand(AddCardToHandEvent @event)
+
+    private void ShowCurrentCard()
     {
-        hpBarPool.ReturnAllToPool(); // Clear existing cards before adding new ones
-        foreach (var cardSO in @event.CardSO)
+        foreach (var cardSO in cardModel.CurrentPlayerCard)
         {
             Card newCard = hpBarPool.Get();
             newCard.Init(cardSO);

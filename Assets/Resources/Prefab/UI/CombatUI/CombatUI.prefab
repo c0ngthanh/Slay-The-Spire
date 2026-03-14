@@ -879,3 +879,4 @@ MonoBehaviour:
   graveyardBtn: {fileID: 2563186351415183702}
   infoText: {fileID: 6008680207877940066}
   cardCombat: {fileID: 6461030547184912425}
+  unitHPHandler: {fileID: 9121060231702211035}
