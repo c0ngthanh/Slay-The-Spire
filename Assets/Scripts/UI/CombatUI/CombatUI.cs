@@ -12,6 +12,8 @@ public class CombatUI : BaseUI
     [SerializeField] private UnitHPHandler unitHPHandler;
 
     private CardModel cardModel => GameModel.Instance.GetModel<CardModel>();
+    private UISystem uiSystem => GameManager.Instance.GetSystem<UISystem>();
+    private CombatSystem combatSystem => GameManager.Instance.GetSystem<CombatSystem>();
 
     protected override void OnInialize()
     {
@@ -25,14 +27,12 @@ public class CombatUI : BaseUI
 
     private void OnOpenGraveyard()
     {
-        UISystem uiSystem = GameManager.Instance.GetSystem<UISystem>();
         CardShow cardDeck = uiSystem.ShowUI<CardShow>();
         cardDeck.ShowCards(cardModel.PlayerGraveyard); 
     }
 
     private void OnOpenDeck()
     {
-        UISystem uiSystem = GameManager.Instance.GetSystem<UISystem>();
         CardShow cardDeck = uiSystem.ShowUI<CardShow>();
         cardDeck.ShowCards(cardModel.PlayerDeck);
     }
@@ -53,6 +53,6 @@ public class CombatUI : BaseUI
 
     private void OnEndTurnClicked()
     {
-        EventBusSystem.Publish(new EndTurnEvent());
+        combatSystem.RequestEndTurn();
     }
 }

@@ -14,7 +14,6 @@ public class CombatSystem : SystemBase
     private CombatModel combatModel => GameModel.Instance.GetModel<CombatModel>();
 
     public override void Initialize(){
-        EventBusSystem.Subscribe<EndTurnEvent>(EndTurn);
     }
     public override void Dispose()
     {
@@ -89,5 +88,11 @@ public class CombatSystem : SystemBase
         if(!firstTeamAlive || !secondTeamAlive){
             EventBusSystem.Publish(new CombatEndEvent());
         }
+    }
+
+    internal void RequestEndTurn()
+    {
+        EventBusSystem.Publish(new EndTurnEvent());
+        EndTurn(new EndTurnEvent());
     }
 }
